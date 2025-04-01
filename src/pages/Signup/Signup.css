@@ -1,0 +1,92 @@
+body {
+  margin: 0;
+  background-color: white;
+}
+
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  width: 30vw;
+  height: 60vh;
+  min-width: 500px;
+  box-sizing: border-box;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: white;
+}
+
+/* 로고 + 회원가입 타이틀 */
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.title > p {
+  white-space: nowrap;
+  font-size: 30px;
+}
+
+.title > img {
+  width: 80px;
+  height: auto;
+  margin: 0;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.signup-form-field {
+  width: 100%;
+  display: flext;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.signup-form-field > label {
+  display:inline-block;
+  width: 120px;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.signup-form-field > input {
+  width: 270px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.signup-form-field > input:focus {
+  outline: none;
+  border: 1px solid black;
+}
+
+.signup-form-field > button {
+  width: 400px;
+  margin-top: 10px;
+  background-color: #FFEB3B;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s;
+}
+
+.signup-form-field > button:hover {
+  border:none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: #FFE000;
+}
