@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/kakaotalk-logo.png";
 import "./Login.css";
 
 const Login = () => {
@@ -28,7 +29,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <img src="../src/assets/kakaotalk-logo.png" className="logo" />
+      <img src={logo} className="logo" alt="Kakaotalk Logo" />
       <form className="login-form" onSubmit={handleSubmit}>
         <input
           type="text"

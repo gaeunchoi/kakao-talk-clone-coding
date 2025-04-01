@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Signup.css";
+import logo from "../../assets/kakaotalk-logo.png";
 
 const Signup = () => {
   const [id, setId] = useState("");
@@ -35,7 +36,7 @@ const Signup = () => {
   return (
     <div className="signup-container">
       <div className="title">
-        <img src="../src/assets/kakaotalk-logo.png" className="logo" />
+        <img src={logo} className="logo" alt="Kakaotalk logo" />
         <p>회원가입</p>
       </div>
       <form className="signup-form" onSubmit={handleSubmit}>
