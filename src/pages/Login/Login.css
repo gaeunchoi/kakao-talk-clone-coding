@@ -9,21 +9,24 @@ body {
   justify-content: center;
   align-items: center;
   
+
   width: 30vw;
   height: 60vh;
+  min-width: 500px;
+  box-sizing: border-box;
   padding: 50px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   background-color: #FFEB3B;
 }
 
 .logo {
-  width: 30%;
-  margin-bottom: 20%;
+  width: 100px;
+  height: auto;
+  margin-bottom: 20px;
 }
 
 .login-form {
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,7 +35,7 @@ body {
 
 .login-form > input {
   box-sizing: border-box;
-  width: 100%;
+  width: 350px;
   padding: 15px 10px;
   border: 0.5px solid #ccc;
   border-radius: 2px;
@@ -44,7 +47,7 @@ body {
 }
 
 .login-form > button {
-  width: 100%;
+  width: 350px;
   margin-top: 10px;
   background-color: white;
   border: 0.5px solid #ccc;
