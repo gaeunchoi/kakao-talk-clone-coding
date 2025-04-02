@@ -1,12 +1,16 @@
-# React + Vite
+# React + API를 이용해 카카오톡 클론코딩
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## ✅ Login
 
-Currently, two official plugins are available:
+- 로그인 이력이 있을 경우 ChatList로 전환
+- 입력되지 않은 input 필드가 있는 경우 로그인 버튼 비활성화
+- 아이디 입력 필드가 이메일 형식이 아닐 경우 회원가입 버튼 아래 에러메시지 출력
+- 아이디/비밀번호가 존재하는 회원 정보와 일치하지 않을 경우 위와 동일한 형식으로 에러메시지 출력
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Signup
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 아이디가 이메일 형식으로 입력되어있는지 체크
+- 비밀번호가 8자 이상인지, 특수문자가 1개 이상 포함되어있는지 체크
+- 비밀번호가 아이디와 4글자 이상 겹치면 사용 불가능
+- 비밀번호와 비밀번호확인 입력값이 동일한지 확인
+- 휴대폰번호에 -가 입력되어있는지 확인
