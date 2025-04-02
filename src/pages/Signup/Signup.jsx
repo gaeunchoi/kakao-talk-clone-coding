@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Signup.css";
 import logo from "../../assets/kakaotalk-logo.png";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [id, setId] = useState("");
@@ -8,6 +9,7 @@ const Signup = () => {
   const [confirmPw, setConfirmPw] = useState("");
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const navigate = useNavigate();
 
   const handleIdChanged = (e) => {
     setId(e.target.value);
@@ -97,6 +99,9 @@ const Signup = () => {
         </div>
         <div className="signup-form-field">
           <button type="submit">회원가입 완료</button>
+        </div>
+        <div className="signup-form-field">
+          <p onClick={() => navigate("/Login")}> ← 로그인 화면으로 돌아가기</p>
         </div>
       </form>
     </div>
