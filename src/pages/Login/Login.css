@@ -52,12 +52,17 @@ body {
   background-color: white;
   border: 0.5px solid #ccc;
   border-radius: 2px;
+  outline: none;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .login-form > button:hover {
-  background-color: #f7f7f6;
+  background-color: lightgray;
+}
+
+.login-form > button:disabled{
+  cursor: not-allowed;
 }
 
 .login-form > p {
@@ -69,5 +74,11 @@ body {
 }
 
 .login-form > p:hover {
-  color: red;  
+  color: gray;  
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
 }
