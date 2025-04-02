@@ -44,7 +44,7 @@ const Login = () => {
           onChange={handlePwChanged}
         />
         <button type="submit">로그인</button>
-        <p onClick={() => navigate("./Signup")}>이메일로 회원가입</p>
+        <p onClick={() => navigate("/Signup")}>이메일로 회원가입</p>
       </form>
     </div>
   );
