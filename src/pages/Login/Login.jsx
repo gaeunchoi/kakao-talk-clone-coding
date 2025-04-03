@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/kakaotalk-logo.png";
 import { isValidEmail } from "../../utils/emailValidation";
@@ -10,30 +10,40 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  // Modal 설정
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    if (modalMessage === "로그인 성공!") navigate("/chatlist");
+  };
+
   const handleIdChanged = (e) => {
     setId(e.target.value);
-
-    // ID 이메일 형식 체크
-    if (!isValidEmail(id)) {
-      setErrorMessage("아이디는 이메일 형식으로 입력해야합니다.");
-      return;
-    }
-    setErrorMessage("");
   };
 
   const handlePwChanged = (e) => {
     setPw(e.target.value);
   };
 
+  // ID 이메일 형식 체크
+  useEffect(() => {
+    if (id && !isValidEmail(id))
+      setErrorMessage("아이디는 이메일 형식으로 입력해야합니다.");
+    else setErrorMessage("");
+  }, [id]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // 로그인 성공시 Modal
     if (id === "admin@test.com" && pw === "admin") {
-      navigate("/chatlist");
+      setModalMessage("로그인 성공!");
     } else {
-      setErrorMessage("로그인 정보가 올바르지 않습니다");
-      return;
+      setModalMessage("로그인 정보가 올바르지 않습니다");
     }
+    openModal();
   };
 
   const isBtnDisabled = id === "" || pw === "" || !isValidEmail(id);
@@ -62,6 +72,16 @@ const Login = () => {
           <div className="login-error-message">{errorMessage}</div>
         )}
       </form>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <p>{modalMessage}</p>
+            <button onClick={closeModal}>확인</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
