@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/kakaotalk-logo.png";
 import { isValidEmail } from "../../utils/emailValidation";
+import Modal from "../../components/Modal";
 import "./Login.css";
 
 const Login = () => {
@@ -74,14 +75,7 @@ const Login = () => {
       </form>
 
       {/* Modal */}
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <p>{modalMessage}</p>
-            <button onClick={closeModal}>확인</button>
-          </div>
-        </div>
-      )}
+      {isModalOpen && <Modal message={modalMessage} closeFnc={closeModal} />}
     </div>
   );
 };

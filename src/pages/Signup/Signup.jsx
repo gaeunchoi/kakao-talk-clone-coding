@@ -4,6 +4,7 @@ import logo from "../../assets/kakaotalk-logo.png";
 import { useNavigate } from "react-router-dom";
 import { isValidEmail } from "../../utils/emailValidation";
 import { isValidPassword } from "../../utils/pwValidation";
+import Modal from "../../components/Modal";
 
 const Signup = () => {
   // 아이디, 비밀번호, 비밀번호 확인, 이름, 휴대전화번호를 위한 상태감지
@@ -235,15 +236,7 @@ const Signup = () => {
 
       {/* 회원가입 완료 Modal */}
       {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <p>
-              회원가입이 완료되었습니다! <br />
-              로그인 화면으로 돌아갑니다
-            </p>
-            <button onClick={closeModal}>확인</button>
-          </div>
-        </div>
+        <Modal message="회원가입이 완료되었습니다!" closeFnc={closeModal} />
       )}
     </div>
   );
