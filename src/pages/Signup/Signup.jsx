@@ -72,7 +72,7 @@ const Signup = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     setIsModalOpen(false);
-    navigate("/Login");
+    navigate("/");
   };
 
   // 아이디 필드

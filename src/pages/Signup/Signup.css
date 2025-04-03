@@ -132,7 +132,7 @@ body {
   color: black;
   text-align: center;
   transition: color 0.3s;
-  
+
   cursor: pointer;
 }
 
@@ -154,9 +154,25 @@ body {
 }
 
 .modal {
+  width: 300px;
   color: black;
   background: white;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
+}
+
+.modal > button {
+  color: black;
+  background-color: #FFEB3B;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.modal > button:hover {
+  background-color: #FFD700;
+}
+
+.modal > button:focus {
+  outline: none;
 }
