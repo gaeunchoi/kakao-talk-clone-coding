@@ -23,6 +23,9 @@ const Signup = () => {
   // 회원가입 완료 버튼 비활성화를 위한 상태감지
   const [isFormValid, setIsFormValid] = useState(false);
 
+  // 회원가입 완료시 모달을 위한 상태감지
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   // 버튼 비활성화 감지
   const checkFormValid = useCallback(() => {
     const isValid =
@@ -64,6 +67,13 @@ const Signup = () => {
     phoneNumberErrorMessage,
     checkFormValid,
   ]);
+
+  // 모달 열기 닫기
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    navigate("/Login");
+  };
 
   // 아이디 필드
   const handleIdChanged = (e) => {
@@ -123,8 +133,7 @@ const Signup = () => {
     if (id === "admin@test.com") {
       alert("이미 가입된 이메일입니다.");
     } else {
-      alert("회원가입이 완료되었습니다. 로그인창으로 돌아갑니당");
-      navigate("/Login");
+      openModal();
     }
   };
 
@@ -148,7 +157,7 @@ const Signup = () => {
             />
           </div>
           {idErrorMessage && (
-            <div className="error-message">{idErrorMessage}</div>
+            <div className="signup-error-message">{idErrorMessage}</div>
           )}
         </div>
         <div className="signup-form-field">
@@ -164,7 +173,7 @@ const Signup = () => {
             />
           </div>
           {pwErrorMessage && (
-            <div className="error-message">{pwErrorMessage}</div>
+            <div className="signup-error-message">{pwErrorMessage}</div>
           )}
         </div>
         <div className="signup-form-field">
@@ -180,7 +189,7 @@ const Signup = () => {
             />
           </div>
           {confirmPwErrorMessage && (
-            <div className="error-message">{confirmPwErrorMessage}</div>
+            <div className="signup-error-message">{confirmPwErrorMessage}</div>
           )}
         </div>
         <div className="signup-form-field">
@@ -209,7 +218,9 @@ const Signup = () => {
             />
           </div>
           {phoneNumberErrorMessage && (
-            <div className="error-message">{phoneNumberErrorMessage}</div>
+            <div className="signup-error-message">
+              {phoneNumberErrorMessage}
+            </div>
           )}
         </div>
         <div className="signup-form-field">
@@ -221,6 +232,19 @@ const Signup = () => {
           <p onClick={() => navigate("/Login")}> ← 로그인 화면으로 돌아가기</p>
         </div>
       </form>
+
+      {/* 회원가입 완료 Modal */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <p>
+              회원가입이 완료되었습니다! <br />
+              로그인 화면으로 돌아갑니다
+            </p>
+            <button onClick={closeModal}>확인</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

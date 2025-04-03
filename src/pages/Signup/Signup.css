@@ -30,6 +30,7 @@ body {
 
 .title > p {
   white-space: nowrap;
+  color: black;
   font-size: 30px;
 }
 
@@ -90,7 +91,7 @@ body {
 }
 
 /* 에러메시지 */
-.error-message {
+.signup-error-message {
   margin-top: 3px;
   font-size: 12px;
   color: red;
@@ -107,6 +108,10 @@ body {
   cursor: pointer;
   border: none;
   transition: all 0.3s;
+}
+
+.signup-form-field > button:focus{
+  outline: none;
 }
 
 .signup-form-field > button:hover {
@@ -133,4 +138,25 @@ body {
 
 .signup-form-field > p:hover {
   color: red;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  color: black;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
 }
