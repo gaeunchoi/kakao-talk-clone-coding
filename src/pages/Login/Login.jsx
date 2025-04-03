@@ -58,7 +58,9 @@ const Login = () => {
           로그인
         </button>
         <p onClick={() => navigate("/Signup")}>이메일로 회원가입</p>
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
+        {errorMessage && (
+          <div className="login-error-message">{errorMessage}</div>
+        )}
       </form>
     </div>
   );
