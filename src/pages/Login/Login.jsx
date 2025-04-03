@@ -7,7 +7,7 @@ import "./Login.css";
 const Login = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
-  const [errorMesasge, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleIdChanged = (e) => {
@@ -58,7 +58,7 @@ const Login = () => {
           로그인
         </button>
         <p onClick={() => navigate("/Signup")}>이메일로 회원가입</p>
-        {errorMesasge && <div className="error-message">{errorMesasge}</div>}
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
       </form>
     </div>
   );
