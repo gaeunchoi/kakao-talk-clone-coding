@@ -7,16 +7,107 @@ body {
 .chat-list-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  
 
+  overflow: hidden;
   width: 30vw;
   height: 60vh;
   min-width: 500px;
   box-sizing: border-box;
-  padding: 50px;
+
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: white;
+}
+
+/* 최상단 헤더 */
+.chat-list-title {
+  position: sticky;
+  top: 0;
+  width: 100%;
   background-color: #FFEB3B;
+  box-sizing: border-box;
+  padding: 25px 15px;
+  text-align: left;
+}
+
+.chat-list-title > h2 {
+  margin: 0px;
+}
+
+.chat-list-content {
+  overflow-y: auto;
+  width: 100%;
+}
+
+/* 채팅방 리스트 공통 셋팅 */
+.profile-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: white;
+  transition: background-color 0.3s;
+}
+
+.profile-container:hover{
+  background-color: #EEE;
+}
+
+.profileText {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.profileText > p, h3 {
+  margin: 3px 0px;
+}
+
+.profileText > p {
+  font-size: 14px;
+}
+
+/* 프로필 이미지 */
+.profileImg {
+  width: 70px;
+  height: 70px;
+  margin: 5px;
+  margin-right: 15px;
+  border-radius: 30%;
+}
+
+/* 나와의 채팅 버튼 */
+.my-chat-room-btn {
+  color: black;
+  background-color: #ccc;
+  font-size: 12px;
+  padding: 10px;
+  cursor: pointer;
+
+  /* 오른쪽에 붙이기 */
+  position: absolute;
+  right: 15px;
+
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.my-chat-room-btn:hover {
+  outline: none;
+  background-color: #999;
+}
+
+/* 시간 오른쪽으로 */
+.profile-container {
+  position: relative;
+}
+
+.profile-container > .last-chat-time {
+  position: absolute;
+  right: 15px;
 }
