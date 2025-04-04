@@ -230,7 +230,7 @@ const Signup = () => {
           </button>
         </div>
         <div className="signup-form-field">
-          <p onClick={() => navigate("/Login")}> ← 로그인 화면으로 돌아가기</p>
+          <p onClick={() => navigate("/")}> ← 로그인 화면으로 돌아가기</p>
         </div>
       </form>
 
