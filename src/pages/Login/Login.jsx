@@ -64,7 +64,7 @@ const Login = () => {
         if (data.message.includes("비밀번호")) {
           setErrorMessage(data.message);
         } else {
-          setErrorMessage(data.message);
+          setModalMessage(data.message);
           openModal();
         }
         return;
