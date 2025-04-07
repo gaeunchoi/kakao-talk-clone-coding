@@ -27,6 +27,10 @@ const Signup = () => {
   // 회원가입 완료시 모달을 위한 상태감지
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // 에러시 모달을 위한 상태감지
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorModalMessage, setErrorModalMessage] = useState("");
+
   // 버튼 비활성화 감지
   const checkFormValid = useCallback(() => {
     const isValid =
@@ -69,11 +73,22 @@ const Signup = () => {
     checkFormValid,
   ]);
 
-  // 모달 열기 닫기
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => {
+  // 성공 모달 열기 닫기
+  const openSuccessModal = () => setIsModalOpen(true);
+  const closeSuccessModal = () => {
     setIsModalOpen(false);
     navigate("/");
+  };
+
+  // 에러 모달 열기 닫기
+  const openErrorModal = (message) => {
+    setErrorModalMessage(message);
+    setIsErrorModalOpen(true);
+  };
+
+  const closeErrorModal = () => {
+    setErrorModalMessage("");
+    setIsErrorModalOpen(false);
   };
 
   // 아이디 필드
@@ -128,13 +143,42 @@ const Signup = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  // Submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (id === "admin@test.com") {
-      alert("이미 가입된 이메일입니다.");
-    } else {
-      openModal();
+    try {
+      const res = await fetch(
+        "https://goorm-kakaotalk-api.vercel.app/api/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: id,
+            password: pw,
+            name,
+            phoneNumber,
+          }),
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        // 중복 이메일/휴대폰번호 400에러 퉤
+        if (res.status === 400) {
+          openErrorModal(data.message);
+          return;
+        }
+        openErrorModal(data.message);
+        return;
+      }
+
+      localStorage.setItem("token", data.accessToken);
+      openSuccessModal();
+    } catch (e) {
+      console.log(e);
+      openErrorModal("에러가 발생했습니다. 잠시 후 다시 시도해주세요");
     }
   };
 
@@ -234,9 +278,17 @@ const Signup = () => {
         </div>
       </form>
 
-      {/* 회원가입 완료 Modal */}
+      {/* 회원가입 완료 모달 */}
       {isModalOpen && (
-        <Modal message="회원가입이 완료되었습니다!" closeFnc={closeModal} />
+        <Modal
+          message="회원가입이 완료되었습니다!"
+          closeFnc={closeSuccessModal}
+        />
+      )}
+
+      {/* 에러 모달 */}
+      {isErrorModalOpen && (
+        <Modal message={errorModalMessage} closeFnc={closeErrorModal} />
       )}
     </div>
   );
