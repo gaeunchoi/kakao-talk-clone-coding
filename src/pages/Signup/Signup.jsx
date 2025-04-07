@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { isValidEmail } from "../../utils/emailValidation";
 import { isValidPassword } from "../../utils/pwValidation";
 import Modal from "../../components/Modal";
+import SignupInput from "../../components/SignupInput";
 
 const Signup = () => {
-  // 아이디, 비밀번호, 비밀번호 확인, 이름, 휴대전화번호를 위한 상태감지
+  // ============================ State ============================
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
@@ -15,12 +16,15 @@ const Signup = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const navigate = useNavigate();
 
-  // 아이디, 비밀번호, 비밀번호 확인, 휴대전화번호 에러메시지를 위한 상태감지
   const [idErrorMessage, setIdErrorMessage] = useState("");
   const [pwErrorMessage, setPwErrorMessage] = useState("");
   const [confirmPwErrorMessage, setConfirmPwErrorMessage] = useState("");
   const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+  // ============================ State 끝 ============================
+
+  // ============================ Modal ============================
   // 회원가입 완료 버튼 비활성화를 위한 상태감지
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -31,8 +35,24 @@ const Signup = () => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorModalMessage, setErrorModalMessage] = useState("");
 
-  // 회원가입 진행 로딩 상태 감지
-  const [isLoading, setIsLoading] = useState(false);
+  // 성공 모달 열기 닫기
+  const openSuccessModal = () => setIsModalOpen(true);
+  const closeSuccessModal = () => {
+    setIsModalOpen(false);
+    navigate("/");
+  };
+
+  // 에러 모달 열기 닫기
+  const openErrorModal = (message) => {
+    setErrorModalMessage(message);
+    setIsErrorModalOpen(true);
+  };
+
+  const closeErrorModal = () => {
+    setErrorModalMessage("");
+    setIsErrorModalOpen(false);
+  };
+  // ============================ Modal 끝 ============================
 
   // 버튼 비활성화 감지
   const checkFormValid = useCallback(() => {
@@ -60,49 +80,19 @@ const Signup = () => {
     phoneNumberErrorMessage,
   ]);
 
-  // useState를 호출할 때가 아니라 state가 변경될 때 버튼 비활성화
+  // 상태가 바뀔때만 유효성 검사하기
   useEffect(() => {
     checkFormValid();
-  }, [
-    id,
-    pw,
-    confirmPw,
-    name,
-    phoneNumber,
-    idErrorMessage,
-    pwErrorMessage,
-    confirmPwErrorMessage,
-    phoneNumberErrorMessage,
-    checkFormValid,
-  ]);
-
-  // 성공 모달 열기 닫기
-  const openSuccessModal = () => setIsModalOpen(true);
-  const closeSuccessModal = () => {
-    setIsModalOpen(false);
-    navigate("/");
-  };
-
-  // 에러 모달 열기 닫기
-  const openErrorModal = (message) => {
-    setErrorModalMessage(message);
-    setIsErrorModalOpen(true);
-  };
-
-  const closeErrorModal = () => {
-    setErrorModalMessage("");
-    setIsErrorModalOpen(false);
-  };
+  }, [checkFormValid]);
 
   // 아이디 필드
   const handleIdChanged = (e) => {
     setId(e.target.value);
-    if (!isValidEmail(id)) {
+    if (!isValidEmail(e.target.value)) {
       setIdErrorMessage("아이디는 이메일 형식으로 입력해야합니다.");
     } else {
       setIdErrorMessage("");
     }
-    checkFormValid();
   };
 
   // 비밀번호 필드
@@ -114,43 +104,42 @@ const Signup = () => {
     } else {
       setPwErrorMessage("");
     }
-    checkFormValid();
   };
 
   // 비밀번호 확인 필드
   const handleConfirmPwChanged = (e) => {
     setConfirmPw(e.target.value);
 
-    // API 붙이기 전 TEST
     if (pw !== e.target.value) {
       setConfirmPwErrorMessage("입력하신 비밀번호와 일치하지 않습니다.");
     } else {
       setConfirmPwErrorMessage("");
     }
-    checkFormValid();
   };
 
   // 이름 필드
   const handleNameChanged = (e) => {
     setName(e.target.value);
-    checkFormValid();
   };
 
   // 휴대전화번호 필드
   const handlePhoneNumberChanged = (e) => {
     setPhoneNumber(e.target.value);
-    if (e.target.value.includes("-")) {
-      setPhoneNumberErrorMessage("-를 제외하고 입력해주세요");
+
+    const phoneNumberRegex = /^[0-9]*$/;
+    if (!phoneNumberRegex.test(e.target.value)) {
+      setPhoneNumberErrorMessage("숫자만 입력해주세요 (- 제외)");
     } else {
       setPhoneNumberErrorMessage("");
     }
   };
 
-  // Submit
+  // 로그인 버튼 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
+    // API 연동
     try {
       const res = await fetch(
         "https://goorm-kakaotalk-api.vercel.app/api/signup",
@@ -167,6 +156,7 @@ const Signup = () => {
           }),
         }
       );
+
       const data = await res.json();
       if (!res.ok) {
         // 중복 이메일/휴대폰번호 400에러 퉤
@@ -195,85 +185,57 @@ const Signup = () => {
         <p>회원가입</p>
       </div>
       <form className="signup-form" onSubmit={handleSubmit}>
-        <div className="signup-form-field">
-          <div className="info">
-            <label htmlFor="id">아이디(E-mail)</label>
-            <input
-              type="text"
-              id="id"
-              name="id"
-              placeholder="아이디를 이메일 형식으로 입력하세요"
-              value={id}
-              onChange={handleIdChanged}
-            />
-          </div>
-          {idErrorMessage && (
-            <div className="signup-error-message">{idErrorMessage}</div>
-          )}
-        </div>
-        <div className="signup-form-field">
-          <div className="info">
-            <label htmlFor="pw">비밀번호</label>
-            <input
-              type="password"
-              id="pw"
-              name="pw"
-              placeholder="비밀번호를 8자 이상 입력하세요"
-              value={pw}
-              onChange={handlePwChanged}
-            />
-          </div>
-          {pwErrorMessage && (
-            <div className="signup-error-message">{pwErrorMessage}</div>
-          )}
-        </div>
-        <div className="signup-form-field">
-          <div className="info">
-            <label htmlFor="confirmPw">비밀번호 확인</label>
-            <input
-              type="password"
-              id="confirmPw"
-              name="confirmPw"
-              placeholder="위 비밀번호와 동일한 값을 입력하세요"
-              value={confirmPw}
-              onChange={handleConfirmPwChanged}
-            />
-          </div>
-          {confirmPwErrorMessage && (
-            <div className="signup-error-message">{confirmPwErrorMessage}</div>
-          )}
-        </div>
-        <div className="signup-form-field">
-          <div className="info">
-            <label htmlFor="name">이름</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="이름을 입력하세요"
-              value={name}
-              onChange={handleNameChanged}
-            />
-          </div>
-        </div>
-        <div className="signup-form-field">
-          <div className="info">
-            <label htmlFor="phoneNumber">휴대전화번호</label>
-            <input
-              type="text"
-              id="phoneNumber"
-              name="phoneNumber"
-              placeholder="휴대전화번호를 입력하세요(- 제외)"
-              value={phoneNumber}
-              onChange={handlePhoneNumberChanged}
-            />
-          </div>
-          {phoneNumberErrorMessage && (
-            <div className="signup-error-message">
-              {phoneNumberErrorMessage}
-            </div>
-          )}
-        </div>
+        <SignupInput
+          label="아이디(E-mail)"
+          id="id"
+          name="id"
+          placeholder="아이디를 이메일 형식으로 입력하세요"
+          value={id}
+          onChange={handleIdChanged}
+          errorMessage={idErrorMessage}
+        />
+
+        <SignupInput
+          label="비밀번호"
+          id="pw"
+          name="pw"
+          type="password"
+          placeholder="비밀번호를 8자 이상 입력하세요"
+          value={pw}
+          onChange={handlePwChanged}
+          errorMessage={pwErrorMessage}
+        />
+
+        <SignupInput
+          label="비밀번호 확인"
+          id="confirmPw"
+          name="confirmPw"
+          type="password"
+          placeholder="위 비밀번호와 동일한 값을 입력하세요"
+          value={confirmPw}
+          onChange={handleConfirmPwChanged}
+          errorMessage={confirmPwErrorMessage}
+        />
+
+        <SignupInput
+          label="이름"
+          id="name"
+          name="name"
+          placeholder="이름을 입력하세요"
+          value={name}
+          onChange={handleNameChanged}
+        />
+
+        <SignupInput
+          label="휴대전화번호"
+          id="phoneNumber"
+          name="phoneNumber"
+          placeholder="휴대전화번호를 입력하세요(- 제외)"
+          value={phoneNumber}
+          onChange={handlePhoneNumberChanged}
+          errorMessage={phoneNumberErrorMessage}
+        />
+
         <div className="signup-form-field">
           <button type="submit" disabled={!isFormValid || isLoading}>
             {isLoading ? "회원가입 진행중" : "회원가입 완료"}
