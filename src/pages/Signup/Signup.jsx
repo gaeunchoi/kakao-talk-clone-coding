@@ -31,6 +31,9 @@ const Signup = () => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorModalMessage, setErrorModalMessage] = useState("");
 
+  // 회원가입 진행 로딩 상태 감지
+  const [isLoading, setIsLoading] = useState(false);
+
   // 버튼 비활성화 감지
   const checkFormValid = useCallback(() => {
     const isValid =
@@ -146,6 +149,7 @@ const Signup = () => {
   // Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const res = await fetch(
@@ -179,6 +183,8 @@ const Signup = () => {
     } catch (e) {
       console.log(e);
       openErrorModal("에러가 발생했습니다. 잠시 후 다시 시도해주세요");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -269,8 +275,8 @@ const Signup = () => {
           )}
         </div>
         <div className="signup-form-field">
-          <button type="submit" disabled={!isFormValid}>
-            회원가입 완료
+          <button type="submit" disabled={!isFormValid || isLoading}>
+            {isLoading ? "회원가입 진행중" : "회원가입 완료"}
           </button>
         </div>
         <div className="signup-form-field">
