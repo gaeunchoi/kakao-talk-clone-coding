@@ -6,19 +6,25 @@ import Modal from "../../components/Modal";
 import "./Login.css";
 
 const Login = () => {
+  // ============================ State ============================
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  // ============================ State 끝 ============================
+
   const navigate = useNavigate();
 
-  // Modal 설정
+  // ============================ Modal ============================
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     setIsModalOpen(false);
     if (modalMessage === "로그인 성공!") navigate("/chatlist");
   };
+  // ============================ Modal 끝 ============================
 
   const handleIdChanged = (e) => {
     setId(e.target.value);
@@ -35,16 +41,45 @@ const Login = () => {
     else setErrorMessage("");
   }, [id]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    // 로그인 성공시 Modal
-    if (id === "admin@test.com" && pw === "admin") {
+    try {
+      const res = await fetch(
+        "https://goorm-kakaotalk-api.vercel.app/api/signin",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: id,
+            password: pw,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (data.message.includes("비밀번호")) {
+          setErrorMessage(data.message);
+        } else {
+          setErrorMessage(data.message);
+          openModal();
+        }
+        return;
+      }
+
+      localStorage.setItem("token", data.accessToken);
       setModalMessage("로그인 성공!");
-    } else {
-      setModalMessage("로그인 정보가 올바르지 않습니다");
+      openModal();
+    } catch (e) {
+      console.log(e);
+      setModalMessage("에러가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      openModal();
+    } finally {
+      setIsLoading(false);
     }
-    openModal();
   };
 
   const isBtnDisabled = id === "" || pw === "" || !isValidEmail(id);
@@ -65,16 +100,18 @@ const Login = () => {
           value={pw}
           onChange={handlePwChanged}
         />
-        <button type="submit" disabled={isBtnDisabled}>
-          로그인
+        <button type="submit" disabled={isBtnDisabled || isLoading}>
+          {isLoading ? "로그인 진행중" : "로그인"}
         </button>
         <p onClick={() => navigate("/Signup")}>이메일로 회원가입</p>
+
+        {/* ID, PW 필드 에러메시지 */}
         {errorMessage && (
           <div className="login-error-message">{errorMessage}</div>
         )}
       </form>
 
-      {/* Modal */}
+      {/* 모달 */}
       {isModalOpen && <Modal message={modalMessage} closeFnc={closeModal} />}
     </div>
   );
