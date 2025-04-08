@@ -14,11 +14,16 @@
   width: 300px;
   color: black;
   background: white;
-  padding: 20px;
+  box-sizing: border-box;
+  padding: 30px;
   border-radius: 10px;
   text-align: center;
 }
 
+.modal > p {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
 .modal > button {
   color: black;
   background-color: #FFEB3B;

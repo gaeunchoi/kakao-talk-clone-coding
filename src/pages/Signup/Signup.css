@@ -103,7 +103,7 @@ body {
 /* 회원가입 완료 버튼 */
 .signup-form-field > button {
   width: 400px;
-  margin-top: 10px;
+  margin: 10px 0px;
   color: black;
   background-color: #FFEB3B;
   cursor: pointer;
