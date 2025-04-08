@@ -40,6 +40,7 @@ const ChatList = () => {
     navigate("/userprofile");
   };
 
+  console.log(chatRooms);
   return (
     <div className="chat-list-container page-transiton">
       <div className="chat-list-title">
@@ -77,15 +78,19 @@ const ChatList = () => {
               <div className="profileText">
                 <h3>{chatroom.other_user.name}</h3>
                 <p>
-                  {chatroom.last_message.content ||
+                  {chatroom.last_message?.content ||
                     "이전 대화 내용이 존재하지 않습니다."}
                 </p>
               </div>
               <span className="last-chat-time">
-                {new Date(chatroom.last_message.updated_at).toLocaleTimeString(
-                  "ko-KR",
-                  { hour: "2-digit", minute: "2-digit" }
-                )}
+                {chatroom.last_message
+                  ? new Date(
+                      chatroom.last_message.updated_at
+                    ).toLocaleTimeString("ko-KR", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })
+                  : ""}
               </span>
             </div>
           ))}
