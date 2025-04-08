@@ -14,7 +14,6 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/chatlist" element={<ChatList />} />
         <Route path="/userprofile" element={<UserProfile />} />
-        <Route path="/mychatroom" element={<MyChatRoom />} />
       </Routes>
     </Router>
   );
