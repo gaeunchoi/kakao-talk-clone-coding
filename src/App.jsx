@@ -5,7 +5,6 @@ import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import ChatList from "./pages/ChatList/ChatList";
 import UserProfile from "./pages/UserProfile/UserProfile";
-import MyChatRoom from "./pages/MyChatRoom/MyChatRoom";
 
 function App() {
   return (
