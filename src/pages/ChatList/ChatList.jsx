@@ -57,7 +57,14 @@ const ChatList = () => {
             <h3>{user.name}</h3>
             <p>{user.bio || "상태메시지가 없습니다."}</p>
           </div>
-          <button className="my-chat-room-btn">나와의 채팅</button>
+          <button
+            className="my-chat-room-btn"
+            onClick={() => {
+              navigate("/mychatroom");
+            }}
+          >
+            나와의 채팅
+          </button>
         </div>
         <div className="chat-rooms">
           {chatRooms.map((chatroom, idx) => (
