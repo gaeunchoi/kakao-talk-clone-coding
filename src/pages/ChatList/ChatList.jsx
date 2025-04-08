@@ -1,40 +1,84 @@
 import "./ChatList.css";
-import profileImg from "../../assets/aguileon.jpg";
+import { useState, useEffect } from "react";
+import Modal from "../../components/Modal";
 const ChatList = () => {
-  const userName = "admin";
-  const testData = Array(20).fill({
-    name: "상대방입니다",
-    lastMessage: "욤뇽뇽얌냥냥냥냥~",
-    time: "오후 5:23",
+  const [chatRooms, setChatRooms] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("loginUser"));
+
+  useEffect(() => {
+    const fetchAPI = async () => {
+      try {
+        const chatRoomRes = await fetch(
+          "https://goorm-kakaotalk-api.vercel.app/api/users/me/chatrooms",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!chatRoomRes.ok) throw new Error("채팅방을 불러오지 못했습니다.");
+
+        const chatRoomData = await chatRoomRes.json();
+        setChatRooms(chatRoomData);
+      } catch (e) {
+        console.error("🚨 에러 발생->", e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAPI();
   });
 
   return (
     <div className="chat-list-container">
       <div className="chat-list-title">
-        <h2>{userName}님의 ChatList</h2>
+        <h2>{user.name}님의 ChatList</h2>
       </div>
       <div className="chat-list-content">
         <div className="profile-container">
-          <img src={profileImg} alt="profileImg" className="profileImg" />
+          <img
+            src={user.profile_image_url}
+            alt="내 프로필 이미지"
+            className="profileImg"
+          />
           <div className="profileText">
-            <h3>{userName}</h3>
-            <p>상태메시지</p>
+            <h3>{user.name}</h3>
+            <p>{user.bio || "상태메시지가 없습니다."}</p>
           </div>
           <button className="my-chat-room-btn">나와의 채팅</button>
         </div>
         <div className="chat-rooms">
-          {testData.map((data, idx) => (
+          {chatRooms.map((chatroom, idx) => (
             <div key={idx} className="profile-container">
-              <img src={profileImg} alt="profileImg" className="profileImg" />
+              <img
+                src={chatroom.other_user.profile_image_url}
+                alt="profileImg"
+                className="profileImg"
+              />
               <div className="profileText">
-                <h3>{data.name}</h3>
-                <p>{data.lastMessage}</p>
+                <h3>{chatroom.other_user.name}</h3>
+                <p>
+                  {chatroom.last_message.content ||
+                    "이전 대화 내용이 존재하지 않습니다."}
+                </p>
               </div>
-              <span className="last-chat-time">{data.time}</span>
+              <span className="last-chat-time">
+                {new Date(chatroom.last_message.updated_at).toLocaleTimeString(
+                  "ko-KR",
+                  { hour: "2-digit", minute: "2-digit" }
+                )}
+              </span>
             </div>
           ))}
         </div>
       </div>
+      {isLoading && (
+        <Modal message="채팅목록 로딩중" closeFnc={() => {}} showBtn={false} />
+      )}
     </div>
   );
 };
