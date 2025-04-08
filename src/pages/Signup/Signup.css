@@ -118,7 +118,7 @@ body {
 .signup-form-field > button:hover {
   border:none;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  background-color: #FFE000;
+  background-color: #FBC02D;
 }
 
 .signup-form-field > button:disabled {
