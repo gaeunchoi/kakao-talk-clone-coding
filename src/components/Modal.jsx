@@ -1,11 +1,11 @@
 import "./Modal.css";
 
-const Modal = ({ message, closeFnc }) => {
+const Modal = ({ message, closeFnc, showBtn = true }) => {
   return (
     <div className="modal-overlay">
       <div className="modal">
         <p>{message}</p>
-        <button onClick={closeFnc}>확인</button>
+        {showBtn && <button onClick={closeFnc}>확인</button>}
       </div>
     </div>
   );

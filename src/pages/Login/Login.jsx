@@ -69,8 +69,22 @@ const Login = () => {
         }
         return;
       }
-
       localStorage.setItem("token", data.accessToken);
+
+      // 로그인 성공하면 User 정보 받아서 localStorage에 저장
+      const userRes = await fetch(
+        "https://goorm-kakaotalk-api.vercel.app/api/users/me",
+        {
+          headers: {
+            Authorization: `Bearer ${data.accessToken}`,
+          },
+        }
+      );
+
+      if (!userRes.ok) throw new Error("유저 정보를 불러오지 못했습니다.");
+      const userData = await userRes.json();
+      localStorage.setItem("loginUser", JSON.stringify(userData));
+
       setModalMessage("로그인 성공!");
       openModal();
     } catch (e) {

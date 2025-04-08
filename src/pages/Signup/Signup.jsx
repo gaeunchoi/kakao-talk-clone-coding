@@ -167,8 +167,6 @@ const Signup = () => {
         openErrorModal(data.message);
         return;
       }
-
-      localStorage.setItem("token", data.accessToken);
       openSuccessModal();
     } catch (e) {
       console.log(e);
@@ -256,7 +254,11 @@ const Signup = () => {
 
       {/* 에러 모달 */}
       {isErrorModalOpen && (
-        <Modal message={errorModalMessage} closeFnc={closeErrorModal} />
+        <Modal
+          message={errorModalMessage}
+          closeFnc={closeErrorModal}
+          showBtn={true}
+        />
       )}
     </div>
   );
