@@ -1,7 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Gowun+Dodum&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap');
 :root {
-  font-family: "Gowun Dodum", sans-serif;
+  font-family: "IBM Plex Sans KR", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
