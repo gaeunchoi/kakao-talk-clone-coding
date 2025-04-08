@@ -1,11 +1,14 @@
 import "./ChatList.css";
+import "../../styles/transitions.css";
 import { useState, useEffect } from "react";
 import Modal from "../../components/Modal";
+import { useNavigate } from "react-router-dom";
 const ChatList = () => {
   const [chatRooms, setChatRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("loginUser"));
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -31,12 +34,16 @@ const ChatList = () => {
     };
 
     fetchAPI();
-  });
+  }, [token]);
+
+  const handleUserProfileImg = () => {
+    navigate("/userprofile");
+  };
 
   return (
-    <div className="chat-list-container">
+    <div className="chat-list-container page-transiton">
       <div className="chat-list-title">
-        <h2>{user.name}님의 ChatList</h2>
+        <h2>💬 {user.name}님의 ChatList</h2>
       </div>
       <div className="chat-list-content">
         <div className="profile-container">
@@ -44,6 +51,7 @@ const ChatList = () => {
             src={user.profile_image_url}
             alt="내 프로필 이미지"
             className="profileImg"
+            onClick={handleUserProfileImg}
           />
           <div className="profileText">
             <h3>{user.name}</h3>
