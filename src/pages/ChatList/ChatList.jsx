@@ -2,6 +2,7 @@ import "./ChatList.css";
 import "../../styles/transitions.css";
 import { useState, useEffect } from "react";
 import Modal from "../../components/Modal";
+import { formatChatTime } from "../../utils/formatChatTime";
 import { useNavigate } from "react-router-dom";
 const ChatList = () => {
   const [chatRooms, setChatRooms] = useState([]);
@@ -40,9 +41,8 @@ const ChatList = () => {
     navigate("/userprofile");
   };
 
-  console.log(chatRooms);
   return (
-    <div className="chat-list-container page-transiton">
+    <div className="chat-list-container page-transition">
       <div className="chat-list-title">
         <h2>💬 {user.name}님의 ChatList</h2>
       </div>
@@ -61,7 +61,7 @@ const ChatList = () => {
           <button
             className="my-chat-room-btn"
             onClick={() => {
-              navigate("/mychatroom");
+              navigate("./me");
             }}
           >
             나와의 채팅
@@ -83,14 +83,7 @@ const ChatList = () => {
                 </p>
               </div>
               <span className="last-chat-time">
-                {chatroom.last_message
-                  ? new Date(
-                      chatroom.last_message.updated_at
-                    ).toLocaleTimeString("ko-KR", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })
-                  : ""}
+                {formatChatTime(chatroom.last_message.updated_at)}
               </span>
             </div>
           ))}
