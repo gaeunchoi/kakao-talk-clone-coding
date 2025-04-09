@@ -117,7 +117,7 @@ const Login = () => {
         <button type="submit" disabled={isBtnDisabled || isLoading}>
           {isLoading ? "로그인 진행중" : "로그인"}
         </button>
-        <p onClick={() => navigate("/Signup")}>이메일로 회원가입</p>
+        <p onClick={() => navigate("/signup")}>이메일로 회원가입</p>
 
         {/* ID, PW 필드 에러메시지 */}
         {errorMessage && (
