@@ -12,7 +12,7 @@ const UserProfile = () => {
 
   // 나와의 채팅 버튼
   const handleMyChatBtn = () => {
-    navigate("/mychatroom");
+    navigate("/chatlist/me");
   };
 
   // 프로필 편집 버튼

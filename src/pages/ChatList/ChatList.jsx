@@ -5,11 +5,16 @@ import Modal from "../../components/Modal";
 import { formatChatTime } from "../../utils/formatChatTime";
 import { useNavigate } from "react-router-dom";
 const ChatList = () => {
+  // ============================ State ============================
   const [chatRooms, setChatRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  // ============================ State 끝 ============================
+
+  // ============================ variable ============================
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("loginUser"));
   const navigate = useNavigate();
+  // ============================ variable 끝 ============================
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -61,7 +66,7 @@ const ChatList = () => {
           <button
             className="my-chat-room-btn"
             onClick={() => {
-              navigate("./me");
+              navigate("/chatlist/me");
             }}
           >
             나와의 채팅
@@ -83,7 +88,9 @@ const ChatList = () => {
                 </p>
               </div>
               <span className="last-chat-time">
-                {formatChatTime(chatroom.last_message.updated_at)}
+                {chatroom.last_message
+                  ? formatChatTime(chatroom.last_message.updated_at)
+                  : ""}
               </span>
             </div>
           ))}
