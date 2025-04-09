@@ -1,0 +1,137 @@
+body {
+  margin: 0;
+  background-color: white;
+}
+
+.chat-room-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  
+  width: 30vw;
+  height: 60vh;
+  min-width: 500px;
+  min-height: 800px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+  overflow: hidden;
+
+  color: black;
+  background-color: #BECEDE;
+}
+
+/* 채팅창 헤더 */
+.chat-room-header {
+  box-sizing: border-box;
+  width: 100%;
+  height: 120px;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.chat-room-header > img {
+  width: 80px;
+  border-radius: 30%;
+  margin: 10px;
+  margin-right: 30px;
+}
+
+.chat-room-header > h2 {
+  font-size: 30px;
+}
+
+.chat-room-header > button {
+  position: absolute;
+  right: 15px;
+  color: black;
+  background-color: #FFEB3B;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.chat-room-header > button:focus{
+  outline: none;
+}
+
+.chat-room-header > button:hover {
+  border:none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: #FBC02D;
+}
+
+/* 채팅창 채팅 */
+.chat-room-content {
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+/* 채팅창 입력 + 전송버튼 */
+.chat-room-send-text {
+  box-sizing: border-box;
+  width: 100%;
+  height: 150px;
+  padding: 15px 0;
+
+  display: flex;
+  align-items: center;
+
+  border-top: 1px solid #ccc;
+  background-color: white;
+  position: relative;
+}
+
+.chat-room-send-text > textarea {
+  vertical-align: top;
+  flex: 1;
+  height: 100%;
+  padding: 15px;
+  font-size: 15px;
+  color: black;
+  background-color: white;
+  border: none;
+}
+
+.chat-room-send-text > textarea:focus {
+  outline: none;
+  border: none;
+}
+
+.chat-room-send-text > button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: black;
+  background-color: #FFEB3B;
+  border: none;
+  padding: 10px 30px;
+  transition: background-color 0.3s;
+}
+
+.chat-room-send-text > button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.chat-room-send-text > button:disabled:hover {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.chat-room-send-text > button:hover{
+  border:none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: #FBC02D;
+}
+
+.chat-room-send-text > button:focus{
+  outline: none;
+}
