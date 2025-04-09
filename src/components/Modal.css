@@ -22,13 +22,13 @@
 
 .modal > p {
   font-size: 20px;
-  margin-bottom: 30px;
 }
 .modal > button {
   color: black;
   background-color: #FFEB3B;
   border: none;
   transition: background-color 0.3s;
+  margin-top: 30px;
 }
 
 .modal > button:hover {
