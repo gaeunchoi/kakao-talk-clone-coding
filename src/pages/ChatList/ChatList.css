@@ -54,6 +54,7 @@ body {
   padding: 10px;
   background-color: white;
   transition: background-color 0.3s;
+  position: relative;
 }
 
 .profile-container:hover{
@@ -108,11 +109,6 @@ body {
 .my-chat-room-btn:hover {
   outline: none;
   background-color: #999;
-}
-
-/* 시간 오른쪽으로 */
-.profile-container {
-  position: relative;
 }
 
 .profile-container > .last-chat-time {
