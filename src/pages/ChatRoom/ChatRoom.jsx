@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./ChatRoom.css";
 import "../../styles/transitions.css";
-import Modal from "../../components/Modal";
+import Modal from "../../components/Modal/Modal";
+import ChatBubble from "../../components/ChatBubble/ChatBubble";
 
 const ChatRoom = () => {
   // ============================ State ============================
@@ -12,6 +13,7 @@ const ChatRoom = () => {
   // ============================ State 끝 ============================
 
   // ============================ variable ============================
+  const loginUser = JSON.parse(localStorage.getItem("loginUser")) ?? null;
   const token = localStorage.getItem("token");
   const { chatroomId } = useParams();
   const navigate = useNavigate();
@@ -19,7 +21,6 @@ const ChatRoom = () => {
 
   useEffect(() => {
     const fetchChatData = async () => {
-      const loginUser = JSON.parse(localStorage.getItem("loginUser"));
       if (chatroomId === "me") setTarget(loginUser);
       else {
         try {
@@ -65,6 +66,7 @@ const ChatRoom = () => {
     setChatMessage(e.target.value);
   };
 
+  console.log(target, messages, loginUser);
   return (
     <div className="chat-room-container page-transition">
       {!target ? (
@@ -84,7 +86,25 @@ const ChatRoom = () => {
             </button>
           </div>
           <div className="chat-room-content">
-            <h1>채팅 들어갈겁니당</h1>
+            {messages.map((message) =>
+              message.sender_id === target.id ? (
+                <ChatBubble
+                  key={message.id}
+                  isTarget={true}
+                  senderData={target}
+                  chatData={message}
+                />
+              ) : (
+                loginUser && (
+                  <ChatBubble
+                    key={message.id}
+                    isTarget={false}
+                    senderData={loginUser}
+                    chatData={message}
+                  />
+                )
+              )
+            )}
           </div>
           <div className="chat-room-send-text">
             <textarea

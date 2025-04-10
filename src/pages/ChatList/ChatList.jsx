@@ -1,7 +1,7 @@
 import "./ChatList.css";
 import "../../styles/transitions.css";
 import { useState, useEffect } from "react";
-import Modal from "../../components/Modal";
+import Modal from "../../components/Modal/Modal";
 import { formatChatTime } from "../../utils/formatChatTime";
 import { useNavigate } from "react-router-dom";
 const ChatList = () => {
@@ -29,8 +29,8 @@ const ChatList = () => {
         );
 
         if (!chatRoomRes.ok) throw new Error("채팅방을 불러오지 못했습니다.");
-
         const chatRoomData = await chatRoomRes.json();
+        console.log(chatRoomData);
         setChatRooms(chatRoomData);
       } catch (e) {
         console.error("🚨 에러 발생->", e);
@@ -74,7 +74,13 @@ const ChatList = () => {
         </div>
         <div className="chat-rooms">
           {chatRooms.map((chatroom, idx) => (
-            <div key={idx} className="profile-container">
+            <div
+              key={idx}
+              className="profile-container"
+              onDoubleClick={() => {
+                navigate(`/chatlist/${chatroom.id}`);
+              }}
+            >
               <img
                 src={chatroom.other_user.profile_image_url}
                 alt="profileImg"
@@ -89,7 +95,7 @@ const ChatList = () => {
               </div>
               <span className="last-chat-time">
                 {chatroom.last_message
-                  ? formatChatTime(chatroom.last_message.updated_at)
+                  ? formatChatTime(false, chatroom.last_message.updated_at)
                   : ""}
               </span>
             </div>

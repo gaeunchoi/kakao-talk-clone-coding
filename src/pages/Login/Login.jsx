@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/kakaotalk-logo.png";
 import { isValidEmail } from "../../utils/emailValidation";
-import Modal from "../../components/Modal";
+import Modal from "../../components/Modal/Modal";
 import "./Login.css";
 
 const Login = () => {

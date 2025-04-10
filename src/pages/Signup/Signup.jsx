@@ -4,7 +4,7 @@ import logo from "../../assets/kakaotalk-logo.png";
 import { useNavigate } from "react-router-dom";
 import { isValidEmail } from "../../utils/emailValidation";
 import { isValidPassword } from "../../utils/pwValidation";
-import Modal from "../../components/Modal";
+import Modal from "../../components/Modal/Modal";
 import SignupInput from "../../components/SignupInput";
 
 const Signup = () => {
