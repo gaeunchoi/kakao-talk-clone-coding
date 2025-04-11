@@ -129,25 +129,17 @@ const ChatRoom = () => {
             </button>
           </div>
           <div className="chat-room-content">
-            {messages.map((message) =>
-              message.sender_id === target.id ? (
+            {messages.map((message) => {
+              const isMe = message.sender_id === loginUser.id;
+              return (
                 <ChatBubble
                   key={message.id}
-                  isTarget={true}
-                  senderData={target}
+                  isTarget={!isMe}
+                  senderData={isMe ? loginUser : target}
                   chatData={message}
                 />
-              ) : (
-                loginUser && (
-                  <ChatBubble
-                    key={message.id}
-                    isTarget={false}
-                    senderData={loginUser}
-                    chatData={message}
-                  />
-                )
-              )
-            )}
+              );
+            })}
           </div>
           {target.id !== loginUser.id && (
             <div className="who-send-chat">
