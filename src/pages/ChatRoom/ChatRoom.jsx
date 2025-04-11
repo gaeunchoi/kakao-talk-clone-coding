@@ -10,6 +10,8 @@ const ChatRoom = () => {
   const [target, setTarget] = useState(null);
   const [messages, setMessages] = useState([]);
   const [chatMessage, setChatMessage] = useState("");
+  const [senderType, setSenderType] = useState("me");
+  const [isSending, setIsSending] = useState(false);
   // ============================ State 끝 ============================
 
   // ============================ variable ============================
@@ -62,11 +64,52 @@ const ChatRoom = () => {
     fetchChatData();
   }, [chatroomId, token]);
 
+  // 채팅창 입력 감지
   const handleTextarea = (e) => {
     setChatMessage(e.target.value);
   };
 
-  console.log(target, messages, loginUser);
+  // radio 감지
+  const handleSenderChange = (e) => {
+    setSenderType(e.target.value);
+  };
+
+  // 전송 버튼
+  const handleSendMessageBtn = async () => {
+    if (!chatMessage.trim()) return;
+    if (isSending) return;
+
+    const sender_id = senderType === "me" ? loginUser.id : target.id;
+
+    try {
+      setIsSending(true);
+      const sendMsgRes = await fetch(
+        `https://goorm-kakaotalk-api.vercel.app/api/chatrooms/${chatroomId}/chats`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            sender_id,
+            content: chatMessage,
+          }),
+        }
+      );
+
+      if (!sendMsgRes.ok) throw new Error("메시지가 전송되지 않았습니다.");
+
+      const sendMsgData = await sendMsgRes.json();
+      setMessages((prev) => [...prev, sendMsgData]);
+      setChatMessage("");
+    } catch (e) {
+      console.error("🚨 에러 발생", e);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
     <div className="chat-room-container page-transition">
       {!target ? (
@@ -106,14 +149,45 @@ const ChatRoom = () => {
               )
             )}
           </div>
+          {target.id !== loginUser.id && (
+            <div className="who-send-chat">
+              <form>
+                <label>
+                  <input
+                    type="radio"
+                    name="sender"
+                    value="me"
+                    checked={senderType === "me"}
+                    onChange={handleSenderChange}
+                  />
+                  나
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="sender"
+                    value="target"
+                    checked={senderType === "target"}
+                    onChange={handleSenderChange}
+                  />
+                  상대방
+                </label>
+              </form>
+            </div>
+          )}
           <div className="chat-room-send-text">
             <textarea
               type="text"
+              value={chatMessage}
               placeholder="메시지 입력"
               onChange={handleTextarea}
             />
-            <button className="chat-room-send-btn" disabled={!chatMessage}>
-              전송
+            <button
+              className="chat-room-send-btn"
+              disabled={!chatMessage || isSending}
+              onClick={handleSendMessageBtn}
+            >
+              {isSending ? "전송중 .." : "전송"}
             </button>
           </div>
         </>
