@@ -126,6 +126,7 @@ const ChatRoom = () => {
           </div>
           <div className="chat-room-content-wrapper">
             <div className="chat-room-content">
+              <div style={{ marginTop: "auto" }} />
               {messages.map((message) => {
                 const isMe = message.sender_id === loginUser.id;
                 return (
