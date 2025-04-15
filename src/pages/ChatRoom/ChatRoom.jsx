@@ -23,44 +23,40 @@ const ChatRoom = () => {
 
   useEffect(() => {
     const fetchChatData = async () => {
-      if (chatroomId === "me") setTarget(loginUser);
-      else {
-        try {
-          // 채팅방 정보
-          const chatInfoRes = await fetch(
-            `https://goorm-kakaotalk-api.vercel.app/api/chatrooms/${chatroomId}`,
-            {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          if (!chatInfoRes.ok)
-            throw new Error("채팅방 정보를 불러오지 못했습니다.");
-          const chatInfoData = await chatInfoRes.json();
-          setTarget(chatInfoData.other_user);
+      try {
+        // 채팅방 정보
+        const chatInfoRes = await fetch(
+          `https://goorm-kakaotalk-api.vercel.app/api/chatrooms/${chatroomId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!chatInfoRes.ok)
+          throw new Error("채팅방 정보를 불러오지 못했습니다.");
+        const chatInfoData = await chatInfoRes.json();
+        setTarget(chatroomId === "me" ? loginUser : chatInfoData.other_user);
 
-          // 채팅방 내용
-          const chatContentRes = await fetch(
-            `https://goorm-kakaotalk-api.vercel.app/api/chatrooms/${chatroomId}/chats`,
-            {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          if (!chatContentRes.ok)
-            throw new Error("채팅방 내용을 불러오지 못했습니다.");
-          const chatContentData = await chatContentRes.json();
-          setMessages(chatContentData);
-        } catch (e) {
-          console.error("🚨 에러 발생", e);
-        }
+        // 채팅방 내용
+        const chatContentRes = await fetch(
+          `https://goorm-kakaotalk-api.vercel.app/api/chatrooms/${chatroomId}/chats`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!chatContentRes.ok)
+          throw new Error("채팅방 내용을 불러오지 못했습니다.");
+        const chatContentData = await chatContentRes.json();
+        setMessages(chatContentData);
+      } catch (e) {
+        console.error("🚨 에러 발생", e);
       }
     };
-
     fetchChatData();
   }, [chatroomId, token]);
 
@@ -128,18 +124,20 @@ const ChatRoom = () => {
               채팅 목록
             </button>
           </div>
-          <div className="chat-room-content">
-            {messages.map((message) => {
-              const isMe = message.sender_id === loginUser.id;
-              return (
-                <ChatBubble
-                  key={message.id}
-                  isTarget={!isMe}
-                  senderData={isMe ? loginUser : target}
-                  chatData={message}
-                />
-              );
-            })}
+          <div className="chat-room-content-wrapper">
+            <div className="chat-room-content">
+              {messages.map((message) => {
+                const isMe = message.sender_id === loginUser.id;
+                return (
+                  <ChatBubble
+                    key={message.id}
+                    isTarget={!isMe}
+                    senderData={isMe ? loginUser : target}
+                    chatData={message}
+                  />
+                );
+              })}
+            </div>
           </div>
           {target.id !== loginUser.id && (
             <div className="who-send-chat">
