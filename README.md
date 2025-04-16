@@ -14,7 +14,7 @@ Figma로 디자인 작업 후 React를 이용해 뷰 퍼블리싱
 
 ### ✅ Login
 
-![Login](https://github.com/user-attachments/assets/d1edee4e-bc0a-4086-813a-7b8190311165)
+![로그인](https://github.com/user-attachments/assets/d1edee4e-bc0a-4086-813a-7b8190311165)
 
 #### 1. id 아이디, pw 비밀번호
 
@@ -38,7 +38,7 @@ Figma로 디자인 작업 후 React를 이용해 뷰 퍼블리싱
 
 ### ✅ Signup
 
-![Signup](https://github.com/user-attachments/assets/365428b2-0896-4f53-8ed4-c4564b108837)
+![회원가입](https://github.com/user-attachments/assets/365428b2-0896-4f53-8ed4-c4564b108837)
 
 #### 1. id 아이디
 
@@ -75,19 +75,22 @@ Figma로 디자인 작업 후 React를 이용해 뷰 퍼블리싱
 
 ## ChatList
 
-![image](https://github.com/user-attachments/assets/b7a67426-bd12-4fa7-83f7-d2b5be6b2c20)
+![채팅리스트](https://github.com/user-attachments/assets/99f0d001-4769-48be-91a0-9585cc5fcb27)
+
 
 - API에서 받아온 채팅목록 뿌리기
 - 프로필 사진 클릭시 프로필 보여주기
 - 채팅방 클릭 시 해당 채팅방으로 이동
 
 ## UserProfile
+![유저프로필](https://github.com/user-attachments/assets/1410e56b-6b9c-4413-92b5-5a18e69f638a)
 
 - 채팅리스트에서 본인 프로필사진 클릭 시 이동
 - 나와의 채팅 버튼 클릭 시 나와의 채팅방으로 이동
 - 프로필편집 클릭 시 상태메시지란 input 필드로 변경
 
 ## ChatRoom
+![채팅방](https://github.com/user-attachments/assets/8517b4a9-e302-42fb-85fe-d8ffc8186d01)
 
 - API에서 받아온 채팅 내용 뿌리기(ChatBubble)
 - 텍스트를 입력하지 않으면 전송버튼 비활성화
