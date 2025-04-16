@@ -120,9 +120,7 @@ const Login = () => {
         <p onClick={() => navigate("/signup")}>이메일로 회원가입</p>
 
         {/* ID, PW 필드 에러메시지 */}
-        {errorMessage && (
-          <div className="login-error-message">{errorMessage}</div>
-        )}
+        <div className="login-error-message">{errorMessage || "\u00A0"}</div>
       </form>
 
       {/* 모달 */}
