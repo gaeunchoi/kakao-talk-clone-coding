@@ -53,16 +53,17 @@ body {
   margin: 20px;
 }
 
-/* 유저 상태메시지 수정 필드 */
-.user-profile > .input-bio {
+/* 유저 정보 수정 필드 */
+.user-profile > .modify-input {
   width: 100%;
   padding: 7px;
   margin-top: 5px;
+  text-align: center;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
   color: black;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 /* 나와의 채팅, 프로필 수정 버튼 */
@@ -71,6 +72,7 @@ body {
 }
 
 .user-profile-func > button {
+  width: 110px;
   margin: 10px;
   padding: 15px;
   color: black;
