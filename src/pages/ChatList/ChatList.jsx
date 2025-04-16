@@ -30,7 +30,6 @@ const ChatList = () => {
 
         if (!chatRoomRes.ok) throw new Error("채팅방을 불러오지 못했습니다.");
         const chatRoomData = await chatRoomRes.json();
-        console.log(chatRoomData);
         setChatRooms(chatRoomData);
       } catch (e) {
         console.error("🚨 에러 발생->", e);
