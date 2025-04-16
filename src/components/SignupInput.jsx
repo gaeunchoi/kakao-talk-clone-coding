@@ -23,9 +23,7 @@ const SignupInput = ({
           onChange={onChange}
         />
       </div>
-      {errorMessage && (
-        <div className="signup-error-message">{errorMessage}</div>
-      )}
+      <div className="signup-error-message">{errorMessage || "\u00A0"}</div>
     </div>
   );
 };

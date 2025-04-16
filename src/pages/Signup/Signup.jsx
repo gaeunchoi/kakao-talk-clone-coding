@@ -126,9 +126,9 @@ const Signup = () => {
   const handlePhoneNumberChanged = (e) => {
     setPhoneNumber(e.target.value);
 
-    const phoneNumberRegex = /^[0-9]*$/;
+    const phoneNumberRegex = /^\d{11}$/;
     if (!phoneNumberRegex.test(e.target.value)) {
-      setPhoneNumberErrorMessage("숫자만 입력해주세요 (- 제외)");
+      setPhoneNumberErrorMessage("11자리의 전화번호를 모두 입력해주세요.");
     } else {
       setPhoneNumberErrorMessage("");
     }
@@ -190,7 +190,7 @@ const Signup = () => {
           placeholder="아이디를 이메일 형식으로 입력하세요"
           value={id}
           onChange={handleIdChanged}
-          errorMessage={idErrorMessage}
+          errorMessage={idErrorMessage || "\u00A0"}
         />
 
         <SignupInput
@@ -201,7 +201,7 @@ const Signup = () => {
           placeholder="비밀번호를 8자 이상 입력하세요"
           value={pw}
           onChange={handlePwChanged}
-          errorMessage={pwErrorMessage}
+          errorMessage={pwErrorMessage || "\u00A0"}
         />
 
         <SignupInput
@@ -212,7 +212,7 @@ const Signup = () => {
           placeholder="위 비밀번호와 동일한 값을 입력하세요"
           value={confirmPw}
           onChange={handleConfirmPwChanged}
-          errorMessage={confirmPwErrorMessage}
+          errorMessage={confirmPwErrorMessage || "\u00A0"}
         />
 
         <SignupInput
@@ -231,7 +231,7 @@ const Signup = () => {
           placeholder="휴대전화번호를 입력하세요(- 제외)"
           value={phoneNumber}
           onChange={handlePhoneNumberChanged}
-          errorMessage={phoneNumberErrorMessage}
+          errorMessage={phoneNumberErrorMessage || "\u00A0"}
         />
 
         <div className="signup-form-field">
