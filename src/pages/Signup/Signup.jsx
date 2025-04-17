@@ -230,6 +230,7 @@ const Signup = () => {
           name="phoneNumber"
           placeholder="휴대전화번호를 입력하세요(- 제외)"
           value={phoneNumber}
+          maxLength={11}
           onChange={handlePhoneNumberChanged}
           errorMessage={phoneNumberErrorMessage || "\u00A0"}
         />

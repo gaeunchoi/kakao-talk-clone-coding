@@ -7,6 +7,7 @@ const SignupInput = ({
   type = "text",
   placeholder,
   value,
+  maxLength = null,
   onChange,
   errorMessage,
 }) => {
@@ -20,6 +21,7 @@ const SignupInput = ({
           name={name}
           placeholder={placeholder}
           value={value}
+          maxLength={maxLength}
           onChange={onChange}
         />
       </div>
