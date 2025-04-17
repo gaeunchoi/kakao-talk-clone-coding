@@ -62,12 +62,14 @@ const UserProfile = () => {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                placeholder="이름"
                 className="modify-input"
               />
               <input
                 type="text"
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
+                placeholder="상태메시지"
                 className="modify-input"
               />
             </>
