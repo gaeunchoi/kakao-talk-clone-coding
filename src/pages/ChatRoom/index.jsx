@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./ChatRoom.css";
+import "./style.css";
 import "../../styles/transitions.css";
-import Modal from "../../components/Modal/Modal";
-import ChatBubble from "../../components/ChatBubble/ChatBubble";
+import Modal from "../../components/Modal";
+import ChatBubble from "../../components/ChatBubble";
+import { getChatRoomContent, getChatRoomsInfo } from "../../apis/chatrooms";
 
 const ChatRoom = () => {
   // ============================ State ============================
@@ -25,33 +26,11 @@ const ChatRoom = () => {
     const fetchChatData = async () => {
       try {
         // 채팅방 정보
-        const chatInfoRes = await fetch(
-          `https://goorm-kakaotalk-api.vercel.app/api/chatrooms/${chatroomId}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (!chatInfoRes.ok)
-          throw new Error("채팅방 정보를 불러오지 못했습니다.");
-        const chatInfoData = await chatInfoRes.json();
+        const chatInfoData = await getChatRoomsInfo({ chatroomId, token });
         setTarget(chatroomId === "me" ? loginUser : chatInfoData.other_user);
 
         // 채팅방 내용
-        const chatContentRes = await fetch(
-          `https://goorm-kakaotalk-api.vercel.app/api/chatrooms/${chatroomId}/chats`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (!chatContentRes.ok)
-          throw new Error("채팅방 내용을 불러오지 못했습니다.");
-        const chatContentData = await chatContentRes.json();
+        const chatContentData = await getChatRoomContent({ chatroomId, token });
         setMessages(chatContentData);
       } catch (e) {
         console.error("🚨 에러 발생", e);
