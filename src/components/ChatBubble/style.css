@@ -1,5 +1,5 @@
 /* 상대방 채팅 */
-.chat-bubble-target{
+.chat-bubble-target {
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
@@ -29,7 +29,7 @@
   width: fit-content;
 }
 
-.target-chat-content > p{
+.target-chat-content > p {
   width: fit-content;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .me-chat-content {
-  background-color: #FFEB3B;
+  background-color: #ffeb3b;
 }
 
 /* 공통 */

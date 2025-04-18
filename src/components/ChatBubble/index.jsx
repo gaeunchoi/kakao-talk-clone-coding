@@ -1,5 +1,5 @@
 import { formatChatTime } from "../../utils/formatChatTime";
-import "./ChatBubble.css";
+import "./style.css";
 const ChatBubble = ({ isTarget, senderData, chatData }) => {
   return (
     <>
