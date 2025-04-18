@@ -1,9 +1,10 @@
-import "./ChatList.css";
+import "./style.css";
 import "../../styles/transitions.css";
 import { useState, useEffect } from "react";
-import Modal from "../../components/Modal/Modal";
+import Modal from "../../components/Modal";
 import { formatChatTime } from "../../utils/formatChatTime";
 import { useNavigate } from "react-router-dom";
+import { getChatRooms } from "../../apis/users";
 const ChatList = () => {
   // ============================ State ============================
   const [chatRooms, setChatRooms] = useState([]);
@@ -17,28 +18,20 @@ const ChatList = () => {
   // ============================ variable 끝 ============================
 
   useEffect(() => {
-    const fetchAPI = async () => {
-      try {
-        const chatRoomRes = await fetch(
-          "https://goorm-kakaotalk-api.vercel.app/api/users/me/chatrooms",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+    const fetchData = async () => {
+      setIsLoading(true);
 
-        if (!chatRoomRes.ok) throw new Error("채팅방을 불러오지 못했습니다.");
-        const chatRoomData = await chatRoomRes.json();
-        setChatRooms(chatRoomData);
+      try {
+        const data = await getChatRooms({ token: token });
+        setChatRooms(data);
       } catch (e) {
-        console.error("🚨 에러 발생->", e);
+        console.error("🚨 에러 발생: ", e);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchAPI();
+    if (token) fetchData();
   }, [token]);
 
   const handleUserProfileImg = () => {

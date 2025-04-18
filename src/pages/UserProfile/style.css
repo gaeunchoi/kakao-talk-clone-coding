@@ -8,7 +8,7 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  
+
   width: 30vw;
   height: 60vh;
   min-width: 500px;
@@ -17,7 +17,8 @@ body {
   padding: 50px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("../../assets/bgImg.png");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("../../assets/bgImg.png");
   background-size: cover;
 }
 
@@ -77,16 +78,16 @@ body {
   padding: 15px;
   color: black;
   border: none;
-  background-color: #FFEB3B;
+  background-color: #ffeb3b;
   transition: background-color 0.3s;
 }
 
-.user-profile-func > button:focus{
+.user-profile-func > button:focus {
   outline: none;
 }
 
 .user-profile-func > button:hover {
-  border:none;
+  border: none;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  background-color: #FBC02D;
+  background-color: #fbc02d;
 }

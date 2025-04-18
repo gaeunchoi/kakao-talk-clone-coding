@@ -1,7 +1,8 @@
-import "./UserProfile.css";
+import "./style.css";
 import "../../styles/transitions.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { modifyMyInfo } from "../../apis/users";
 
 const UserProfile = () => {
   const user = JSON.parse(localStorage.getItem("loginUser"));
@@ -11,32 +12,9 @@ const UserProfile = () => {
   const [bio, setBio] = useState(user.bio || "");
   const navigate = useNavigate();
 
-  // 나와의 채팅 버튼
-  const handleMyChatBtn = () => {
-    navigate("/chatlist/me");
-  };
-
-  // 프로필 편집 버튼
-  const handleEditProfile = () => {
-    setIsEditing(true);
-  };
-
   const handleSaveProfile = async () => {
     try {
-      const userRes = await fetch(
-        "https://goorm-kakaotalk-api.vercel.app/api/users/me",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ name, bio }),
-        }
-      );
-
-      if (!userRes.ok) throw new Error("프로필 업데이트에 실패했습니다.");
-      const userData = await userRes.json();
+      const userData = await modifyMyInfo({ name, bio, token });
       localStorage.setItem("loginUser", JSON.stringify(userData));
       setIsEditing(false);
     } catch (e) {
@@ -99,10 +77,16 @@ const UserProfile = () => {
             </>
           ) : (
             <>
-              <button className="profile-btn" onClick={handleMyChatBtn}>
+              <button
+                className="profile-btn"
+                onClick={() => navigate("/chatlist/me")}
+              >
                 나와의 채팅
               </button>
-              <button className="profile-btn" onClick={handleEditProfile}>
+              <button
+                className="profile-btn"
+                onClick={() => setIsEditing(true)}
+              >
                 프로필 편집
               </button>
             </>
