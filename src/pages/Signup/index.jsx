@@ -6,7 +6,7 @@ import { isValidEmail } from "../../utils/emailValidation";
 import { isValidPassword } from "../../utils/pwValidation";
 import { signup } from "../../apis/auth";
 import Modal from "../../components/Modal";
-import SignupInput from "../../components/SignupInput";
+import SignupInput from "./components/SignupInput";
 
 const Signup = () => {
   const [id, setId] = useState("");
