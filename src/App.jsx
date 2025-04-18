@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import "../reset.css";
-import Login from "./pages/Login/Login";
-import Signup from "./pages/Signup/Signup";
-import ChatList from "./pages/ChatList/ChatList";
-import UserProfile from "./pages/UserProfile/UserProfile";
-import ChatRoom from "./pages/ChatRoom/ChatRoom";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import ChatList from "./pages/ChatList";
+import UserProfile from "./pages/UserProfile";
+import ChatRoom from "./pages/ChatRoom";
 
 function App() {
   return (
