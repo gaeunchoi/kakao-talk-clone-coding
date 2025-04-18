@@ -1,7 +1,7 @@
 import "./style.css";
 import logo from "../../assets/kakaotalk-logo.png";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { isValidEmail } from "../../utils/emailValidation";
 import Modal from "../../components/Modal";
 import { login } from "../../apis/auth";
@@ -91,7 +91,9 @@ const Login = () => {
         <button type="submit" disabled={isBtnDisabled || isLoading}>
           {isLoading ? "로그인 진행중" : "로그인"}
         </button>
-        <p onClick={() => navigate("/signup")}>이메일로 회원가입</p>
+        <Link to="/signup" className="signup-link">
+          이메일로 회원가입
+        </Link>
 
         {/* ID, PW 필드 에러메시지 */}
         <div className="login-error-message">{errorMessage || "\u00A0"}</div>

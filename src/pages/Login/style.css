@@ -8,7 +8,6 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
 
   width: 30vw;
   height: 60vh;
@@ -18,7 +17,7 @@ body {
   padding: 50px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  background-color: #FFEB3B;
+  background-color: #ffeb3b;
 }
 
 .logo {
@@ -68,12 +67,12 @@ body {
   background-color: lightgray;
 }
 
-.login-form > button:disabled{
+.login-form > button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
 
-.login-form > p {
+.signup-link {
   margin: 10px 0;
   color: black;
   text-align: center;
@@ -81,8 +80,8 @@ body {
   transition: color 0.3s;
 }
 
-.login-form > p:hover {
-  color: gray;  
+.signup-link:hover {
+  color: gray;
 }
 
 .login-error-message {
