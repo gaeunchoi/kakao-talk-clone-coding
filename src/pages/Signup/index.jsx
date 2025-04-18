@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import "./style.css";
 import logo from "../../assets/kakaotalk-logo.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { isValidEmail } from "../../utils/emailValidation";
 import { isValidPassword } from "../../utils/pwValidation";
 import { signup } from "../../apis/auth";
@@ -219,7 +219,9 @@ const Signup = () => {
           </button>
         </div>
         <div className="signup-form-field">
-          <p onClick={() => navigate("/")}> ← 로그인 화면으로 돌아가기</p>
+          <Link to="/" className="login-link">
+            로그인 화면으로 돌아가기
+          </Link>
         </div>
       </form>
 

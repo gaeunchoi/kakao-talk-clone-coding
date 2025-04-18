@@ -50,3 +50,16 @@ body {
   width: 100%;
   overflow: hidden;
 }
+
+/* 로그인 화면으로 돌아가기 */
+.login-link {
+  margin-top: 10px;
+  color: black;
+  text-align: center;
+  transition: color 0.3s;
+  cursor: pointer;
+}
+
+.login-link:hover {
+  color: gray;
+}

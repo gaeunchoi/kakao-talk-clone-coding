@@ -35,20 +35,6 @@
   cursor: not-allowed;
 }
 
-/* 로그인 화면으로 돌아가기 */
-.signup-form-field > p {
-  margin-top: 10px;
-  color: black;
-  text-align: center;
-  transition: color 0.3s;
-
-  cursor: pointer;
-}
-
-.signup-form-field > p:hover {
-  color: red;
-}
-
 /* label + input 요소 */
 .info {
   display: flex;
