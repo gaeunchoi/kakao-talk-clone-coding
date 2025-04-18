@@ -1,0 +1,52 @@
+body {
+  margin: 0;
+  background-color: white;
+}
+
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 30vw;
+  height: 60vh;
+  min-width: 500px;
+  min-height: 800px;
+  box-sizing: border-box;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: white;
+}
+
+/* 로고 + 회원가입 타이틀 */
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.title > p {
+  white-space: nowrap;
+  color: black;
+  font-size: 30px;
+}
+
+.title > img {
+  width: 80px;
+  height: auto;
+  margin: 0;
+}
+
+/* 정보 입력 필드 */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+}

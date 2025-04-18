@@ -1,20 +1,19 @@
 import { useState, useEffect, useCallback } from "react";
-import "./Signup.css";
+import "./style.css";
 import logo from "../../assets/kakaotalk-logo.png";
 import { useNavigate } from "react-router-dom";
 import { isValidEmail } from "../../utils/emailValidation";
 import { isValidPassword } from "../../utils/pwValidation";
-import Modal from "../../components/Modal/Modal";
+import { signup } from "../../apis/auth";
+import Modal from "../../components/Modal";
 import SignupInput from "../../components/SignupInput";
 
 const Signup = () => {
-  // ============================ State ============================
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const navigate = useNavigate();
 
   const [idErrorMessage, setIdErrorMessage] = useState("");
   const [pwErrorMessage, setPwErrorMessage] = useState("");
@@ -22,27 +21,27 @@ const Signup = () => {
   const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
-  // ============================ State 끝 ============================
 
-  // ============================ Modal ============================
   // 회원가입 완료 버튼 비활성화를 위한 상태감지
   const [isFormValid, setIsFormValid] = useState(false);
 
   // 회원가입 완료시 모달을 위한 상태감지
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  // ============================ State 끝 ============================
+  const navigate = useNavigate();
+  // ============================ Modal ============================
   // 에러시 모달을 위한 상태감지
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorModalMessage, setErrorModalMessage] = useState("");
 
-  // 성공 모달 열기 닫기
+  // 성공 모달
   const openSuccessModal = () => setIsModalOpen(true);
   const closeSuccessModal = () => {
     setIsModalOpen(false);
     navigate("/");
   };
 
-  // 에러 모달 열기 닫기
+  // 에러 모달
   const openErrorModal = (message) => {
     setErrorModalMessage(message);
     setIsErrorModalOpen(true);
@@ -117,60 +116,39 @@ const Signup = () => {
     }
   };
 
-  // 이름 필드
-  const handleNameChanged = (e) => {
-    setName(e.target.value);
-  };
-
   // 휴대전화번호 필드
   const handlePhoneNumberChanged = (e) => {
     setPhoneNumber(e.target.value);
 
     const phoneNumberRegex = /^\d{11}$/;
     if (!phoneNumberRegex.test(e.target.value)) {
-      setPhoneNumberErrorMessage("11자리의 전화번호를 모두 입력해주세요.");
+      setPhoneNumberErrorMessage("숫자만 11자리를 입력해주세요.");
     } else {
       setPhoneNumberErrorMessage("");
     }
   };
 
-  // 로그인 버튼 핸들러
+  // 회원가입 버튼 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // API 연동
     try {
-      const res = await fetch(
-        "https://goorm-kakaotalk-api.vercel.app/api/signup",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: id,
-            password: pw,
-            name,
-            phoneNumber,
-          }),
-        }
-      );
+      const { res, data } = await signup({
+        email: id,
+        password: pw,
+        name,
+        phoneNumber,
+      });
 
-      const data = await res.json();
       if (!res.ok) {
-        // 중복 이메일/휴대폰번호 400에러 퉤
-        if (res.status === 400) {
-          openErrorModal(data.message);
-          return;
-        }
         openErrorModal(data.message);
         return;
       }
       openSuccessModal();
     } catch (e) {
       console.log(e);
-      openErrorModal("에러가 발생했습니다. 잠시 후 다시 시도해주세요");
+      openErrorModal("🚨 에러발생: ", e);
     } finally {
       setIsLoading(false);
     }
@@ -221,7 +199,7 @@ const Signup = () => {
           name="name"
           placeholder="이름을 입력하세요"
           value={name}
-          onChange={handleNameChanged}
+          onChange={(e) => setName(e.target.value)}
         />
 
         <SignupInput

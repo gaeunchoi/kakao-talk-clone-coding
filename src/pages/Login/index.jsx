@@ -1,9 +1,11 @@
+import "./style.css";
+import logo from "../../assets/kakaotalk-logo.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/kakaotalk-logo.png";
 import { isValidEmail } from "../../utils/emailValidation";
-import Modal from "../../components/Modal/Modal";
-import "./Login.css";
+import Modal from "../../components/Modal";
+import { login } from "../../apis/auth";
+import { getMyInfo } from "../../apis/users";
 
 const Login = () => {
   // ============================ State ============================
@@ -26,14 +28,6 @@ const Login = () => {
   };
   // ============================ Modal 끝 ============================
 
-  const handleIdChanged = (e) => {
-    setId(e.target.value);
-  };
-
-  const handlePwChanged = (e) => {
-    setPw(e.target.value);
-  };
-
   // ID 이메일 형식 체크
   useEffect(() => {
     if (id && !isValidEmail(id))
@@ -41,24 +35,14 @@ const Login = () => {
     else setErrorMessage("");
   }, [id]);
 
+  // 로그인 버튼 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const res = await fetch(
-        "https://goorm-kakaotalk-api.vercel.app/api/signin",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: id,
-            password: pw,
-          }),
-        }
-      );
-
-      const data = await res.json();
+      // 로그인 시도
+      const { res, data } = await login({ email: id, password: pw });
 
       if (!res.ok) {
         if (data.message.includes("비밀번호")) {
@@ -71,24 +55,14 @@ const Login = () => {
       }
       localStorage.setItem("token", data.accessToken);
 
-      // 로그인 성공하면 User 정보 받아서 localStorage에 저장
-      const userRes = await fetch(
-        "https://goorm-kakaotalk-api.vercel.app/api/users/me",
-        {
-          headers: {
-            Authorization: `Bearer ${data.accessToken}`,
-          },
-        }
-      );
-
-      if (!userRes.ok) throw new Error("유저 정보를 불러오지 못했습니다.");
-      const userData = await userRes.json();
+      // 로그인 성공하면 내 정보 가져오기
+      const userData = await getMyInfo({ token: data.accessToken });
       localStorage.setItem("loginUser", JSON.stringify(userData));
 
       setModalMessage("로그인 성공!");
       openModal();
     } catch (e) {
-      console.log(e);
+      console.log("🚨 에러 발생: ", e);
       setModalMessage("에러가 발생했습니다. 잠시 후 다시 시도해주세요.");
       openModal();
     } finally {
@@ -106,13 +80,13 @@ const Login = () => {
           type="text"
           placeholder="아이디(E-mail)"
           value={id}
-          onChange={handleIdChanged}
+          onChange={(e) => setId(e.target.value)}
         />
         <input
           type="password"
           placeholder="비밀번호"
           value={pw}
-          onChange={handlePwChanged}
+          onChange={(e) => setPw(e.target.value)}
         />
         <button type="submit" disabled={isBtnDisabled || isLoading}>
           {isLoading ? "로그인 진행중" : "로그인"}
