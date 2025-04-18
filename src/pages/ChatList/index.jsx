@@ -34,10 +34,6 @@ const ChatList = () => {
     if (token) fetchData();
   }, [token]);
 
-  const handleUserProfileImg = () => {
-    navigate("/userprofile");
-  };
-
   return (
     <div className="chat-list-container page-transition">
       <div className="chat-list-title">
@@ -49,7 +45,7 @@ const ChatList = () => {
             src={user.profile_image_url}
             alt="내 프로필 이미지"
             className="profileImg"
-            onClick={handleUserProfileImg}
+            onClick={() => navigate("/userprofile")}
           />
           <div className="profileText">
             <h3>{user.name}</h3>
