@@ -1,4 +1,4 @@
-import "./Modal.css";
+import "./style.css";
 
 const Modal = ({ message, closeFnc, showBtn = true }) => {
   return (
