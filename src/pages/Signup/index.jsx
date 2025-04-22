@@ -11,24 +11,25 @@ import SignupInput from "./components/SignupInput";
 
 const Signup = () => {
   // ============================ State ============================
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
-  const [confirmPw, setConfirmPw] = useState("");
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [userData, setUserData] = useState({
+    id: "",
+    pw: "",
+    confirmPw: "",
+    name: "",
+    phoneNumber: "",
+  });
 
-  const [idErrorMessage, setIdErrorMessage] = useState("");
-  const [pwErrorMessage, setPwErrorMessage] = useState("");
-  const [confirmPwErrorMessage, setConfirmPwErrorMessage] = useState("");
-  const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState({
+    id: "",
+    pw: "",
+    confirmPw: "",
+    phoneNumber: "",
+  });
 
   const [isLoading, setIsLoading] = useState(false);
-
   const [isFormValid, setIsFormValid] = useState(false);
   // ============================ State 끝 ============================
-
   const navigate = useNavigate();
-
   // ============================ Modal ============================
   // 모달을 위한 상태감지
   const [modalState, setModalState] = useState({
@@ -47,118 +48,104 @@ const Signup = () => {
 
   const openErrorModal = (message) => {
     setModalState({
-      isOpen: false,
+      isOpen: true,
       type: "error",
       message,
     });
   };
 
   const closeModal = () => {
+    const isModalSuccess = modalState.type === "success";
     setModalState({
       isOpen: false,
       type: "",
       message: "",
     });
-    if (modalState.type === "success") navigate("/");
+    if (isModalSuccess) navigate("/");
   };
   // ============================ Modal 끝 ============================
-
-  // 버튼 비활성화 감지
   const checkFormValid = useCallback(() => {
+    const { id, pw, confirmPw, name, phoneNumber } = userData;
     const isValid =
       id &&
       pw &&
       confirmPw &&
       name &&
       phoneNumber &&
-      !idErrorMessage &&
-      !pwErrorMessage &&
-      !confirmPwErrorMessage &&
-      !phoneNumberErrorMessage;
+      !errorMessage.id &&
+      !errorMessage.pw &&
+      !errorMessage.confirmPw &&
+      !errorMessage.phoneNumber;
 
     setIsFormValid(isValid);
-  }, [
-    id,
-    pw,
-    confirmPw,
-    name,
-    phoneNumber,
-    idErrorMessage,
-    pwErrorMessage,
-    confirmPwErrorMessage,
-    phoneNumberErrorMessage,
-  ]);
+  }, [userData, errorMessage]);
 
-  // 상태가 바뀔때만 유효성 검사하기
   useEffect(() => {
     checkFormValid();
-  }, [checkFormValid]);
+  }, [userData, errorMessage, checkFormValid]);
 
-  // 아이디 필드
-  const handleIdChanged = (e) => {
-    setId(e.target.value);
-    if (!isValidEmail(e.target.value)) {
-      setIdErrorMessage("아이디는 이메일 형식으로 입력해야합니다.");
-    } else {
-      setIdErrorMessage("");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "id") {
+      if (!isValidEmail(value)) {
+        setErrorMessage((prev) => ({
+          ...prev,
+          id: "아이디는 이메일 형식으로 입력해야합니다.",
+        }));
+      } else {
+        setErrorMessage((prev) => ({ ...prev, id: "" }));
+      }
+    }
+
+    if (name === "pw") {
+      const pwValidCheck = isValidPassword(value, userData.id);
+      setErrorMessage((prev) => ({
+        ...prev,
+        pw: pwValidCheck.valid ? "" : pwValidCheck.message,
+      }));
+    }
+
+    if (name === "confirmPw") {
+      setErrorMessage((prev) => ({
+        ...prev,
+        confirmPw:
+          value !== userData.pw ? "입력하신 비밀번호와 일치하지 않습니다." : "",
+      }));
+    }
+
+    if (name === "phoneNumber") {
+      const phoneNumberRegex = /^\d{11}$/;
+      setErrorMessage((prev) => ({
+        ...prev,
+        phoneNumber: phoneNumberRegex.test(value)
+          ? ""
+          : "숫자만 11자리로 입력해주세요.",
+      }));
     }
   };
 
-  // 비밀번호 필드
-  const handlePwChanged = (e) => {
-    setPw(e.target.value);
-    const result = isValidPassword(e.target.value, id);
-    if (!result.valid) {
-      setPwErrorMessage(result.message);
-    } else {
-      setPwErrorMessage("");
-    }
-  };
-
-  // 비밀번호 확인 필드
-  const handleConfirmPwChanged = (e) => {
-    setConfirmPw(e.target.value);
-
-    if (pw !== e.target.value) {
-      setConfirmPwErrorMessage("입력하신 비밀번호와 일치하지 않습니다.");
-    } else {
-      setConfirmPwErrorMessage("");
-    }
-  };
-
-  // 휴대전화번호 필드
-  const handlePhoneNumberChanged = (e) => {
-    setPhoneNumber(e.target.value);
-
-    const phoneNumberRegex = /^\d{11}$/;
-    if (!phoneNumberRegex.test(e.target.value)) {
-      setPhoneNumberErrorMessage("숫자만 11자리를 입력해주세요.");
-    } else {
-      setPhoneNumberErrorMessage("");
-    }
-  };
-
-  // 회원가입 버튼 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
       const { res, data } = await signup({
-        email: id,
-        password: pw,
-        name,
-        phoneNumber,
+        email: userData.id,
+        password: userData.pw,
+        name: userData.name,
+        phoneNumber: userData.phoneNumber,
       });
 
       if (!res.ok) {
         openErrorModal(data.message);
         return;
       }
+
       openSuccessModal();
     } catch (e) {
-      console.log(e);
-      openErrorModal("🚨 에러발생: ", e);
+      console.error("🚨 에러발생: ", e);
     } finally {
       setIsLoading(false);
     }
@@ -170,15 +157,16 @@ const Signup = () => {
         <img src={logo} className="logo" alt="Kakaotalk logo" />
         <p>회원가입</p>
       </div>
+
       <form className="signup-form" onSubmit={handleSubmit}>
         <SignupInput
           label="아이디(E-mail)"
           id="id"
           name="id"
           placeholder="아이디를 이메일 형식으로 입력하세요"
-          value={id}
-          onChange={handleIdChanged}
-          errorMessage={idErrorMessage || "\u00A0"}
+          value={userData.id}
+          onChange={handleChange}
+          errorMessage={errorMessage.id}
         />
 
         <SignupInput
@@ -187,9 +175,9 @@ const Signup = () => {
           name="pw"
           type="password"
           placeholder="비밀번호를 8자 이상 입력하세요"
-          value={pw}
-          onChange={handlePwChanged}
-          errorMessage={pwErrorMessage || "\u00A0"}
+          value={userData.pw}
+          onChange={handleChange}
+          errorMessage={errorMessage.pw}
         />
 
         <SignupInput
@@ -198,9 +186,9 @@ const Signup = () => {
           name="confirmPw"
           type="password"
           placeholder="위 비밀번호와 동일한 값을 입력하세요"
-          value={confirmPw}
-          onChange={handleConfirmPwChanged}
-          errorMessage={confirmPwErrorMessage || "\u00A0"}
+          value={userData.confirmPw}
+          onChange={handleChange}
+          errorMessage={errorMessage.confirmPw}
         />
 
         <SignupInput
@@ -208,8 +196,8 @@ const Signup = () => {
           id="name"
           name="name"
           placeholder="이름을 입력하세요"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={userData.name}
+          onChange={handleChange}
         />
 
         <SignupInput
@@ -217,10 +205,10 @@ const Signup = () => {
           id="phoneNumber"
           name="phoneNumber"
           placeholder="휴대전화번호를 입력하세요(- 제외)"
-          value={phoneNumber}
+          value={userData.phoneNumber}
           maxLength={11}
-          onChange={handlePhoneNumberChanged}
-          errorMessage={phoneNumberErrorMessage || "\u00A0"}
+          onChange={handleChange}
+          errorMessage={errorMessage.phoneNumber}
         />
 
         <div className="signup-form-field">
@@ -241,7 +229,7 @@ const Signup = () => {
           <Modal
             message={modalState.message}
             closeFnc={closeModal}
-            showBtn={modalState.type === "error"}
+            showBtn={true}
           />,
           document.body
         )}
