@@ -1,0 +1,31 @@
+.base-btn {
+  box-sizing: border-box;
+  padding: 12px;
+  font-size: 15px;
+  color: black;
+  background-color: #ffeb3b;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.base-btn:focus {
+  outline: none;
+  border: none;
+}
+
+.base-btn:hover:not(:disabled) {
+  outline: none;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: #fbc02d;
+}
+
+.base-btn:disabled {
+  border: none;
+  outline: none;
+  color: black;
+  background-color: #ccc;
+  cursor: not-allowed;
+}

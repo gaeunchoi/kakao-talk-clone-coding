@@ -7,6 +7,7 @@ import Modal from "../../components/Modal";
 import { login } from "../../apis/auth";
 import { getMyInfo } from "../../apis/users";
 import { createPortal } from "react-dom";
+import CustomBtn from "../../components/CustomBtn";
 
 const Login = () => {
   // ============================ State ============================
@@ -89,9 +90,9 @@ const Login = () => {
           value={pw}
           onChange={(e) => setPw(e.target.value)}
         />
-        <button type="submit" disabled={isBtnDisabled || isLoading}>
+        <CustomBtn type="submit" disabled={isBtnDisabled || isLoading}>
           {isLoading ? "로그인 진행중" : "로그인"}
-        </button>
+        </CustomBtn>
         <Link to="/signup" className="signup-link">
           이메일로 회원가입
         </Link>

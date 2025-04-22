@@ -1,4 +1,5 @@
 import "./style.css";
+import CustomBtn from "../../../../components/CustomBtn";
 import { useNavigate } from "react-router-dom";
 
 const ViewUserProfile = ({ user, onEdit }) => {
@@ -15,17 +16,17 @@ const ViewUserProfile = ({ user, onEdit }) => {
         <p>{user.bio || "상태메시지가 없습니다."}</p>
       </div>
       <div className="user-profile-func">
-        <button
+        <CustomBtn
           className="profile-btn"
           onClick={() => {
             navigate("/chatlist/me");
           }}
         >
           나와의 채팅
-        </button>
-        <button className="profile-btn" onClick={onEdit}>
+        </CustomBtn>
+        <CustomBtn className="profile-btn" onClick={onEdit}>
           프로필 편집
-        </button>
+        </CustomBtn>
       </div>
     </>
   );

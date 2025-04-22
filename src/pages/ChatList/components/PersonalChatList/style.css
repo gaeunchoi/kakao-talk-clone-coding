@@ -47,23 +47,11 @@ h3 {
 
 /* 나와의 채팅 버튼 */
 .my-chat-room-btn {
-  color: black;
   background-color: #ccc;
-  font-size: 12px;
-  padding: 10px;
-  cursor: pointer;
 
   /* 오른쪽에 붙이기 */
   position: absolute;
   right: 15px;
-
-  border: none;
-  transition: background-color 0.3s;
-}
-
-.my-chat-room-btn:hover {
-  outline: none;
-  background-color: #ffeb3b;
 }
 
 .profile-container > .last-chat-time {

@@ -8,6 +8,7 @@ import { isValidPassword } from "../../utils/pwValidation";
 import { signup } from "../../apis/auth";
 import Modal from "../../components/Modal";
 import SignupInput from "./components/SignupInput";
+import CustomBtn from "../../components/CustomBtn";
 
 const Signup = () => {
   // ============================ State ============================
@@ -212,9 +213,9 @@ const Signup = () => {
         />
 
         <div className="signup-form-field">
-          <button type="submit" disabled={!isFormValid || isLoading}>
+          <CustomBtn type="submit" disabled={!isFormValid || isLoading}>
             {isLoading ? "회원가입 진행중" : "회원가입 완료"}
-          </button>
+          </CustomBtn>
         </div>
         <div className="signup-form-field">
           <Link to="/" className="login-link">

@@ -17,3 +17,8 @@
   border-radius: 30%;
   margin: 20px;
 }
+
+.user-profile-func > button {
+  width: 110px;
+  margin: 10px;
+}

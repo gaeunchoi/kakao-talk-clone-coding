@@ -8,7 +8,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  
+
   width: 30vw;
   height: 80vh;
   min-width: 500px;
@@ -20,7 +20,7 @@ body {
   overflow: hidden;
 
   color: black;
-  background-color: #BECEDE;
+  background-color: #becede;
 }
 
 /* 채팅창 헤더 */
@@ -51,26 +51,12 @@ body {
 .chat-room-header > button {
   position: absolute;
   right: 15px;
-  color: black;
-  background-color: #FFEB3B;
-  border: none;
-  transition: background-color 0.3s;
-}
-
-.chat-room-header > button:focus{
-  outline: none;
-}
-
-.chat-room-header > button:hover {
-  border:none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  background-color: #FBC02D;
 }
 
 /* 채팅창 채팅 */
 .chat-room-content-wrapper {
   flex: 1;
-  display:flex;
+  display: flex;
   justify-content: flex-end;
   width: 100%;
   height: 100%;
@@ -97,7 +83,7 @@ body {
   padding: 10px;
   width: 100%;
   height: 40px;
-  
+
   background-color: #eee;
   border: none;
 }
@@ -105,7 +91,6 @@ body {
 .who-send-chat > form > label {
   margin-right: 10px;
 }
-
 
 /* 채팅창 입력 + 전송버튼 */
 .chat-room-send-text {
@@ -144,29 +129,5 @@ body {
   position: absolute;
   bottom: 10px;
   right: 10px;
-  color: black;
-  background-color: #FFEB3B;
-  border: none;
-  padding: 10px 30px;
-  transition: background-color 0.3s;
-}
-
-.chat-room-send-text > button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.chat-room-send-text > button:disabled:hover {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.chat-room-send-text > button:hover{
-  border:none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  background-color: #FBC02D;
-}
-
-.chat-room-send-text > button:focus{
-  outline: none;
+  padding: 10px 20px;
 }

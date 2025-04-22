@@ -5,6 +5,7 @@ import "../../styles/transitions.css";
 import Modal from "../../components/Modal";
 import ChatBubble from "../../components/ChatBubble";
 import { getChatRoomContent, getChatRoomsInfo } from "../../apis/chatrooms";
+import CustomBtn from "../../components/CustomBtn";
 
 const ChatRoom = () => {
   // ============================ State ============================
@@ -94,14 +95,14 @@ const ChatRoom = () => {
           <div className="chat-room-header">
             <img src={target.profile_image_url} alt="프로필사진" />
             <h2>{target.name}</h2>
-            <button
+            <CustomBtn
               className="go-chat-list-btn"
               onClick={() => {
                 navigate("/chatlist");
               }}
             >
               채팅 목록
-            </button>
+            </CustomBtn>
           </div>
           <div className="chat-room-content-wrapper">
             <div className="chat-room-content">
@@ -152,13 +153,13 @@ const ChatRoom = () => {
               placeholder="메시지 입력"
               onChange={handleTextarea}
             />
-            <button
+            <CustomBtn
               className="chat-room-send-btn"
               disabled={!chatMessage || isSending}
               onClick={handleSendMessageBtn}
             >
               {isSending ? "전송중 .." : "전송"}
-            </button>
+            </CustomBtn>
           </div>
         </>
       )}

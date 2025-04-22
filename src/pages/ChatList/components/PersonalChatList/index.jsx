@@ -1,6 +1,7 @@
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { formatChatTime } from "../../../../utils/formatChatTime";
+import CustomBtn from "../../../../components/CustomBtn";
 
 const PersonalChatList = ({ chatroom = null, idx = null, user = null }) => {
   const navigate = useNavigate();
@@ -17,14 +18,14 @@ const PersonalChatList = ({ chatroom = null, idx = null, user = null }) => {
         <h3>{user.name}</h3>
         <p>{user.bio || "상태메시지가 없습니다."}</p>
       </div>
-      <button
+      <CustomBtn
         className="my-chat-room-btn"
         onClick={() => {
           navigate("/chatlist/me");
         }}
       >
         나와의 채팅
-      </button>
+      </CustomBtn>
     </div>
   ) : (
     <div

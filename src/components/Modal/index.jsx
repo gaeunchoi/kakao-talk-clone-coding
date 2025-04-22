@@ -1,3 +1,4 @@
+import CustomBtn from "../CustomBtn";
 import "./style.css";
 
 const Modal = ({ message, closeFnc, showBtn = true }) => {
@@ -5,7 +6,11 @@ const Modal = ({ message, closeFnc, showBtn = true }) => {
     <div className="modal-overlay">
       <div className="modal">
         <p>{message}</p>
-        {showBtn && <button onClick={closeFnc}>확인</button>}
+        {showBtn && (
+          <CustomBtn className="modal-btn" onClick={closeFnc}>
+            확인
+          </CustomBtn>
+        )}
       </div>
     </div>
   );

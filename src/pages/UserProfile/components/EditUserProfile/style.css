@@ -11,7 +11,12 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-/* 나와의 채팅, 프로필 수정 버튼 */
+.modify-input:focus {
+  outline: none;
+  border: 0.5px solid #00c896;
+}
+
+/* 취소, 프로필 저장 버튼 */
 .user-profile-func {
   margin: 20px;
 }
@@ -19,25 +24,4 @@
 .user-profile-func > button {
   width: 110px;
   margin: 10px;
-  padding: 15px;
-  color: black;
-  border: none;
-  background-color: #ffeb3b;
-  transition: background-color 0.3s;
-}
-
-.user-profile-func > button:focus {
-  outline: none;
-}
-
-.user-profile-func > button:hover {
-  border: none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  background-color: #fbc02d;
-}
-
-.user-profile-func > button:disabled {
-  color: white;
-  background-color: #ccc;
-  cursor: not-allowed;
 }

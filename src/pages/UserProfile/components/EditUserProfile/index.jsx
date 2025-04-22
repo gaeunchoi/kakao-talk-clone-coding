@@ -1,4 +1,5 @@
 import "./style.css";
+import CustomBtn from "../../../../components/CustomBtn";
 
 const EditUserProfile = ({
   name,
@@ -34,12 +35,16 @@ const EditUserProfile = ({
         />
       </div>
       <div className="user-profile-func">
-        <button className="profile-btn" onClick={onCancel} disabled={isSaving}>
+        <CustomBtn
+          className="profile-btn"
+          onClick={onCancel}
+          disabled={isSaving}
+        >
           취소
-        </button>
-        <button className="profile-btn" onClick={onSave} disabled={isSaving}>
+        </CustomBtn>
+        <CustomBtn className="profile-btn" onClick={onSave} disabled={isSaving}>
           {isSaving ? "저장중 ..." : "프로필 저장"}
-        </button>
+        </CustomBtn>
       </div>
     </>
   );
