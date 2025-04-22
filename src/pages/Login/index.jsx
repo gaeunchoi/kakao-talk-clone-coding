@@ -6,6 +6,7 @@ import { isValidEmail } from "../../utils/emailValidation";
 import Modal from "../../components/Modal";
 import { login } from "../../apis/auth";
 import { getMyInfo } from "../../apis/users";
+import { createPortal } from "react-dom";
 
 const Login = () => {
   // ============================ State ============================
@@ -100,7 +101,11 @@ const Login = () => {
       </form>
 
       {/* 모달 */}
-      {isModalOpen && <Modal message={modalMessage} closeFnc={closeModal} />}
+      {isModalOpen &&
+        createPortal(
+          <Modal message={modalMessage} closeFnc={closeModal} />,
+          document.body
+        )}
     </div>
   );
 };
