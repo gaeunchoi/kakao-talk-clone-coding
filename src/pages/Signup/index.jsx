@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
 import "./style.css";
 import logo from "../../assets/kakaotalk-logo.png";
+import { useState, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { isValidEmail } from "../../utils/emailValidation";
 import { isValidPassword } from "../../utils/pwValidation";
@@ -9,6 +10,7 @@ import Modal from "../../components/Modal";
 import SignupInput from "./components/SignupInput";
 
 const Signup = () => {
+  // ============================ State ============================
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
@@ -22,34 +24,42 @@ const Signup = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  // 회원가입 완료 버튼 비활성화를 위한 상태감지
   const [isFormValid, setIsFormValid] = useState(false);
-
-  // 회원가입 완료시 모달을 위한 상태감지
-  const [isModalOpen, setIsModalOpen] = useState(false);
   // ============================ State 끝 ============================
+
   const navigate = useNavigate();
+
   // ============================ Modal ============================
-  // 에러시 모달을 위한 상태감지
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
-  const [errorModalMessage, setErrorModalMessage] = useState("");
+  // 모달을 위한 상태감지
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    type: "",
+    message: "",
+  });
 
-  // 성공 모달
-  const openSuccessModal = () => setIsModalOpen(true);
-  const closeSuccessModal = () => {
-    setIsModalOpen(false);
-    navigate("/");
+  const openSuccessModal = () => {
+    setModalState({
+      isOpen: true,
+      type: "success",
+      message: "회원가입이 완료되었습니다!",
+    });
   };
 
-  // 에러 모달
   const openErrorModal = (message) => {
-    setErrorModalMessage(message);
-    setIsErrorModalOpen(true);
+    setModalState({
+      isOpen: false,
+      type: "error",
+      message,
+    });
   };
 
-  const closeErrorModal = () => {
-    setErrorModalMessage("");
-    setIsErrorModalOpen(false);
+  const closeModal = () => {
+    setModalState({
+      isOpen: false,
+      type: "",
+      message: "",
+    });
+    if (modalState.type === "success") navigate("/");
   };
   // ============================ Modal 끝 ============================
 
@@ -225,22 +235,16 @@ const Signup = () => {
         </div>
       </form>
 
-      {/* 회원가입 완료 모달 */}
-      {isModalOpen && (
-        <Modal
-          message="회원가입이 완료되었습니다!"
-          closeFnc={closeSuccessModal}
-        />
-      )}
-
-      {/* 에러 모달 */}
-      {isErrorModalOpen && (
-        <Modal
-          message={errorModalMessage}
-          closeFnc={closeErrorModal}
-          showBtn={true}
-        />
-      )}
+      {/* Modal */}
+      {modalState.isOpen &&
+        createPortal(
+          <Modal
+            message={modalState.message}
+            closeFnc={closeModal}
+            showBtn={modalState.type === "error"}
+          />,
+          document.body
+        )}
     </div>
   );
 };
