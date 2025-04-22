@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import "./style.css";
 import "../../styles/transitions.css";
+import { useRef, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  getChatRoomContent,
+  getChatRoomsInfo,
+  sendChatMessage,
+} from "../../apis/chatrooms";
 import Modal from "../../components/Modal";
-import ChatBubble from "../../components/ChatBubble";
-import { getChatRoomContent, getChatRoomsInfo } from "../../apis/chatrooms";
 import CustomBtn from "../../components/CustomBtn";
+import ChatBubble from "../../components/ChatBubble";
 
 const ChatRoom = () => {
   // ============================ State ============================
@@ -14,6 +18,7 @@ const ChatRoom = () => {
   const [chatMessage, setChatMessage] = useState("");
   const [senderType, setSenderType] = useState("me");
   const [isSending, setIsSending] = useState(false);
+  const scrollRef = useRef(null);
   // ============================ State 끝 ============================
 
   // ============================ variable ============================
@@ -22,6 +27,11 @@ const ChatRoom = () => {
   const { chatroomId } = useParams();
   const navigate = useNavigate();
   // ============================ variable 끝 ============================
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   useEffect(() => {
     const fetchChatData = async () => {
@@ -40,11 +50,6 @@ const ChatRoom = () => {
     fetchChatData();
   }, [chatroomId, token]);
 
-  // 채팅창 입력 감지
-  const handleTextarea = (e) => {
-    setChatMessage(e.target.value);
-  };
-
   // radio 감지
   const handleSenderChange = (e) => {
     setSenderType(e.target.value);
@@ -59,24 +64,13 @@ const ChatRoom = () => {
 
     try {
       setIsSending(true);
-      const sendMsgRes = await fetch(
-        `https://goorm-kakaotalk-api.vercel.app/api/chatrooms/${chatroomId}/chats`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            sender_id,
-            content: chatMessage,
-          }),
-        }
-      );
+      const sendMsgData = await sendChatMessage({
+        chatroomId,
+        token,
+        sender_id,
+        content: chatMessage,
+      });
 
-      if (!sendMsgRes.ok) throw new Error("메시지가 전송되지 않았습니다.");
-
-      const sendMsgData = await sendMsgRes.json();
       setMessages((prev) => [...prev, sendMsgData]);
       setChatMessage("");
     } catch (e) {
@@ -118,6 +112,7 @@ const ChatRoom = () => {
                   />
                 );
               })}
+              <div ref={scrollRef} />
             </div>
           </div>
           {target.id !== loginUser.id && (
@@ -151,7 +146,9 @@ const ChatRoom = () => {
               type="text"
               value={chatMessage}
               placeholder="메시지 입력"
-              onChange={handleTextarea}
+              onChange={(e) => {
+                setChatMessage(e.target.value);
+              }}
             />
             <CustomBtn
               className="chat-room-send-btn"

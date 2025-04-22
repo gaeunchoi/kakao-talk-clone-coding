@@ -29,3 +29,29 @@ export async function getChatRoomContent({ chatroomId, token }) {
   const data = await res.json();
   return data;
 }
+
+export async function sendChatMessage({
+  chatroomId,
+  token,
+  sender_id,
+  content,
+}) {
+  const res = await fetch(
+    `https://goorm-kakaotalk-api.vercel.app/api/chatrooms/${chatroomId}/chats`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        sender_id,
+        content,
+      }),
+    }
+  );
+
+  if (!res.ok) throw new Error("메시지가 전송되지 않았습니다.");
+  const data = await res.json();
+  return data;
+}
