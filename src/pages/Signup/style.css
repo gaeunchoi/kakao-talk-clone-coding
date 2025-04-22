@@ -51,6 +51,33 @@ body {
   overflow: hidden;
 }
 
+/* 회원가입 완료 버튼 */
+.signup-form-field > button {
+  width: 400px;
+  margin: 10px 0px;
+  color: black;
+  background-color: #ffeb3b;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s;
+}
+
+.signup-form-field > button:focus {
+  outline: none;
+}
+
+.signup-form-field > button:hover {
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: #fbc02d;
+}
+
+.signup-form-field > button:disabled {
+  color: white;
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 /* 로그인 화면으로 돌아가기 */
 .login-link {
   margin-top: 10px;

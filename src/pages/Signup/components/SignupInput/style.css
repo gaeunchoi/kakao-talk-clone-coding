@@ -8,33 +8,6 @@
   margin: 5px 0;
 }
 
-/* 회원가입 완료 버튼 */
-.signup-form-field > button {
-  width: 400px;
-  margin: 10px 0px;
-  color: black;
-  background-color: #ffeb3b;
-  cursor: pointer;
-  border: none;
-  transition: all 0.3s;
-}
-
-.signup-form-field > button:focus {
-  outline: none;
-}
-
-.signup-form-field > button:hover {
-  border: none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  background-color: #fbc02d;
-}
-
-.signup-form-field > button:disabled {
-  color: white;
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
 /* label + input 요소 */
 .info {
   display: flex;
@@ -62,7 +35,7 @@
 
 .info > input:focus {
   outline: none;
-  border: 1px solid black;
+  border: 1px solid #00c896;
 }
 
 /* 에러메시지 */
