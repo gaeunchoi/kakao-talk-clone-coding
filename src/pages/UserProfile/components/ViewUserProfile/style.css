@@ -1,0 +1,19 @@
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* 유저 이름 */
+.user-profile > h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+/* 프로필사진 */
+.user-profile > img {
+  width: 130px;
+  border-radius: 30%;
+  margin: 20px;
+}
