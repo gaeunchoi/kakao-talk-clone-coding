@@ -6,28 +6,32 @@ import CustomBtn from "../../../../components/CustomBtn";
 const PersonalChatList = ({ chatroom = null, idx = null, user = null }) => {
   const navigate = useNavigate();
 
-  return user ? (
-    <div className="profile-container">
-      <img
-        src={user.profile_image_url}
-        alt="내 프로필 이미지"
-        className="profileImg"
-        onClick={() => navigate("/userprofile")}
-      />
-      <div className="profileText">
-        <h3>{user.name}</h3>
-        <p>{user.bio || "상태메시지가 없습니다."}</p>
+  if (user) {
+    return (
+      <div className="profile-container">
+        <img
+          src={user.profile_image_url}
+          alt="내 프로필 이미지"
+          className="profileImg"
+          onClick={() => navigate("/userprofile")}
+        />
+        <div className="profileText">
+          <h3>{user.name}</h3>
+          <p>{user.bio || "상태메시지가 없습니다."}</p>
+        </div>
+        <CustomBtn
+          className="my-chat-room-btn"
+          onClick={() => {
+            navigate("/chatlist/me");
+          }}
+        >
+          나와의 채팅
+        </CustomBtn>
       </div>
-      <CustomBtn
-        className="my-chat-room-btn"
-        onClick={() => {
-          navigate("/chatlist/me");
-        }}
-      >
-        나와의 채팅
-      </CustomBtn>
-    </div>
-  ) : (
+    );
+  }
+
+  return (
     <div
       key={idx}
       className="profile-container"
