@@ -1,3 +1,11 @@
+// 이메일 유효성 검사
+export const isValidEmail = (email) => {
+  const emailRegex =
+    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-z]{2,}$/i;
+  return emailRegex.test(email);
+};
+
+// 비밀번호 유효성 검사
 export const isValidPassword = (pw, id) => {
   const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
   const minLength = 8;

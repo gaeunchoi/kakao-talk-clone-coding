@@ -3,12 +3,11 @@ import logo from "../../assets/kakaotalk-logo.png";
 import { useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
-import { isValidEmail } from "../../utils/emailValidation";
-import { isValidPassword } from "../../utils/pwValidation";
 import { signup } from "../../apis/auth";
 import Modal from "../../components/Modal";
 import SignupInput from "./components/SignupInput";
 import CustomBtn from "../../components/CustomBtn";
+import { isValidEmail, isValidPassword } from "../../utils/validation";
 
 const Signup = () => {
   // ============================ State ============================
