@@ -9,6 +9,7 @@ import { getMyInfo } from "../../apis/users";
 import { createPortal } from "react-dom";
 import CustomBtn from "../../components/CustomBtn";
 import useTokenStore from "../../stores/token";
+import useLoginUserStore from "../../stores/loginUser";
 
 const Login = () => {
   // ============================ State ============================
@@ -20,6 +21,7 @@ const Login = () => {
 
   const navigate = useNavigate();
   const { setToken } = useTokenStore();
+  const { setUser } = useLoginUserStore();
 
   // ============================ Modal ============================
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -63,7 +65,7 @@ const Login = () => {
 
       // 로그인 성공하면 내 정보 가져오기
       const userData = await getMyInfo({ token: data.accessToken });
-      localStorage.setItem("loginUser", JSON.stringify(userData));
+      setUser(userData);
 
       setModalMessage("로그인 성공!");
       openModal();

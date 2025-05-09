@@ -11,6 +11,7 @@ import Modal from "../../components/Modal";
 import CustomBtn from "../../components/CustomBtn";
 import ChatBubble from "../../components/ChatBubble";
 import useTokenStore from "../../stores/token";
+import useLoginUserStore from "../../stores/loginUser";
 
 const ChatRoom = () => {
   // ============================ State ============================
@@ -23,8 +24,8 @@ const ChatRoom = () => {
   // ============================ State 끝 ============================
 
   // ============================ variable ============================
-  const loginUser = JSON.parse(localStorage.getItem("loginUser")) ?? null;
   const { token } = useTokenStore();
+  const { user: loginUser } = useLoginUserStore();
   const { chatroomId } = useParams();
   const navigate = useNavigate();
   // ============================ variable 끝 ============================

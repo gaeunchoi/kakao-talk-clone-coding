@@ -6,6 +6,7 @@ import { getChatRooms } from "../../apis/users";
 import Modal from "../../components/Modal";
 import PersonalChatList from "./components/PersonalChatList";
 import useTokenStore from "../../stores/token";
+import useLoginUserStore from "../../stores/loginUser";
 
 const ChatList = () => {
   // ============================ State ============================
@@ -15,7 +16,7 @@ const ChatList = () => {
 
   // ============================ variable ============================
   const { token } = useTokenStore();
-  const user = JSON.parse(localStorage.getItem("loginUser"));
+  const { user } = useLoginUserStore();
   // ============================ variable 끝 ============================
 
   useEffect(() => {

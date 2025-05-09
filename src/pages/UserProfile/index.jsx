@@ -6,12 +6,11 @@ import { modifyMyInfo } from "../../apis/users";
 import EditUserProfile from "./components/EditUserProfile";
 import ViewUserProfile from "./components/ViewUserProfile";
 import useTokenStore from "../../stores/token";
+import useLoginUserStore from "../../stores/loginUser";
 
 const UserProfile = () => {
   const { token } = useTokenStore();
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("loginUser"))
-  );
+  const { user, setUser } = useLoginUserStore();
   const [name, setName] = useState(user.name || "");
   const [bio, setBio] = useState(user.bio || "");
   const [isEditing, setIsEditing] = useState(false);
@@ -28,7 +27,6 @@ const UserProfile = () => {
     setIsSaving(true);
     try {
       const userData = await modifyMyInfo({ name, bio, token });
-      localStorage.setItem("loginUser", JSON.stringify(userData));
       setUser(userData);
       setIsEditing(false);
     } catch (e) {

@@ -1,5 +1,6 @@
 import "./style.css";
 import CustomBtn from "../../../../components/CustomBtn";
+import useLoginUserStore from "../../../../stores/loginUser";
 
 const EditUserProfile = ({
   name,
@@ -10,7 +11,7 @@ const EditUserProfile = ({
   onSave,
   isSaving,
 }) => {
-  const user = JSON.parse(localStorage.getItem("loginUser"));
+  const { user } = useLoginUserStore();
   return (
     <>
       <div className="user-profile">
