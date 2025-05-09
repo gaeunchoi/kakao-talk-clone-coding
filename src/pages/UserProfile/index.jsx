@@ -3,8 +3,8 @@ import "../../styles/transitions.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { modifyMyInfo } from "../../apis/users";
-import EditUserProfile from "./\bcomponents/EditUserProfile";
-import ViewUserProfile from "./\bcomponents/ViewUserProfile";
+import EditUserProfile from "./components/EditUserProfile";
+import ViewUserProfile from "./components/ViewUserProfile";
 
 const UserProfile = () => {
   const token = localStorage.getItem("token");
