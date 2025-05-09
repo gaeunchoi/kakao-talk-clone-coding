@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import "../reset.css";
+import "./styles/reset.css";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ChatList from "./pages/ChatList";
