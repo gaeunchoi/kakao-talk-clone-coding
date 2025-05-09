@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { getChatRooms } from "../../apis/users";
 import Modal from "../../components/Modal";
 import PersonalChatList from "./components/PersonalChatList";
+import useTokenStore from "../../stores/token";
 
 const ChatList = () => {
   // ============================ State ============================
@@ -13,7 +14,7 @@ const ChatList = () => {
   // ============================ State 끝 ============================
 
   // ============================ variable ============================
-  const token = localStorage.getItem("token");
+  const { token } = useTokenStore();
   const user = JSON.parse(localStorage.getItem("loginUser"));
   // ============================ variable 끝 ============================
 

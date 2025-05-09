@@ -10,6 +10,7 @@ import {
 import Modal from "../../components/Modal";
 import CustomBtn from "../../components/CustomBtn";
 import ChatBubble from "../../components/ChatBubble";
+import useTokenStore from "../../stores/token";
 
 const ChatRoom = () => {
   // ============================ State ============================
@@ -23,7 +24,7 @@ const ChatRoom = () => {
 
   // ============================ variable ============================
   const loginUser = JSON.parse(localStorage.getItem("loginUser")) ?? null;
-  const token = localStorage.getItem("token");
+  const { token } = useTokenStore();
   const { chatroomId } = useParams();
   const navigate = useNavigate();
   // ============================ variable 끝 ============================
@@ -48,7 +49,7 @@ const ChatRoom = () => {
       }
     };
     fetchChatData();
-  }, [chatroomId, token]);
+  }, [chatroomId]);
 
   // radio 감지
   const handleSenderChange = (e) => {

@@ -5,9 +5,10 @@ import { useState } from "react";
 import { modifyMyInfo } from "../../apis/users";
 import EditUserProfile from "./components/EditUserProfile";
 import ViewUserProfile from "./components/ViewUserProfile";
+import useTokenStore from "../../stores/token";
 
 const UserProfile = () => {
-  const token = localStorage.getItem("token");
+  const { token } = useTokenStore();
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("loginUser"))
   );
