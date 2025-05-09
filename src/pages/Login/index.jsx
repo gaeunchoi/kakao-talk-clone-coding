@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Modal from "../../components/Modal";
 import { login } from "../../apis/auth";
 import { getMyInfo } from "../../apis/users";
-import { createPortal } from "react-dom";
 import CustomBtn from "../../components/CustomBtn";
 import useTokenStore from "../../stores/token";
 import useLoginUserStore from "../../stores/loginUser";
@@ -108,11 +107,7 @@ const Login = () => {
       </form>
 
       {/* 모달 */}
-      {isModalOpen &&
-        createPortal(
-          <Modal message={modalMessage} closeFnc={closeModal} />,
-          document.body
-        )}
+      {isModalOpen && <Modal message={modalMessage} onClose={closeModal} />}
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import "./style.css";
 import "../../styles/transitions.css";
 import { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
 import { getChatRooms } from "../../apis/users";
 import Modal from "../../components/Modal";
 import PersonalChatList from "./components/PersonalChatList";
@@ -48,15 +47,7 @@ const ChatList = () => {
         ))}
       </div>
 
-      {isLoading &&
-        createPortal(
-          <Modal
-            message="채팅목록 로딩중"
-            closeFnc={() => {}}
-            showBtn={false}
-          />,
-          document.body
-        )}
+      {isLoading && <Modal message="채팅목록 로딩중" />}
     </div>
   );
 };

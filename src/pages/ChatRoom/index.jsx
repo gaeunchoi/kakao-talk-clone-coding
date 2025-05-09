@@ -85,7 +85,7 @@ const ChatRoom = () => {
   return (
     <div className="chat-room-container page-transition">
       {!target ? (
-        <Modal message="채팅방 로딩중" closeFnc={() => {}} showBtn={false} />
+        <Modal message="채팅방 로딩중" />
       ) : (
         <>
           <div className="chat-room-header">

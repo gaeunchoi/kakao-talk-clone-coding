@@ -1,18 +1,20 @@
 import CustomBtn from "../CustomBtn";
 import "./style.css";
+import { createPortal } from "react-dom";
 
-const Modal = ({ message, closeFnc, showBtn = true }) => {
-  return (
+const Modal = ({ message, onClose }) => {
+  return createPortal(
     <div className="modal-overlay">
       <div className="modal">
         <p>{message}</p>
-        {showBtn && (
-          <CustomBtn className="modal-btn" onClick={closeFnc}>
+        {onClose && (
+          <CustomBtn className="modal-btn" onClick={onClose}>
             확인
           </CustomBtn>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

@@ -1,7 +1,6 @@
 import "./style.css";
 import logo from "../../assets/kakaotalk-logo.png";
 import { useState, useEffect, useCallback } from "react";
-import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../../apis/auth";
 import Modal from "../../components/Modal";
@@ -224,15 +223,9 @@ const Signup = () => {
       </form>
 
       {/* Modal */}
-      {modalState.isOpen &&
-        createPortal(
-          <Modal
-            message={modalState.message}
-            closeFnc={closeModal}
-            showBtn={true}
-          />,
-          document.body
-        )}
+      {modalState.isOpen && (
+        <Modal message={modalState.message} onClose={closeModal} />
+      )}
     </div>
   );
 };
