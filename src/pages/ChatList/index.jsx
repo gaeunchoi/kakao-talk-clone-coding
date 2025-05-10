@@ -6,6 +6,8 @@ import Modal from "../../components/Modal";
 import PersonalChatList from "./components/PersonalChatList";
 import useTokenStore from "../../stores/token";
 import useLoginUserStore from "../../stores/loginUser";
+import CustomBtn from "../../components/CustomBtn";
+import { useNavigate } from "react-router-dom";
 
 const ChatList = () => {
   // ============================ State ============================
@@ -14,16 +16,23 @@ const ChatList = () => {
   // ============================ State 끝 ============================
 
   // ============================ variable ============================
-  const { token } = useTokenStore();
-  const { user } = useLoginUserStore();
+  const { token, setToken } = useTokenStore();
+  const { user, setUser } = useLoginUserStore();
+  const navigate = useNavigate();
   // ============================ variable 끝 ============================
+
+  const handleLogoutBtn = () => {
+    navigate("/");
+    setToken(null);
+    setUser(null);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
 
       try {
-        const data = await getChatRooms({ token: token });
+        const data = await getChatRooms();
         setChatRooms(data);
       } catch (e) {
         console.error("🚨 에러 발생: ", e);
@@ -39,6 +48,9 @@ const ChatList = () => {
     <div className="chat-list-container page-transition">
       <div className="chat-list-title">
         <h2>💬 {user.name}님의 ChatList</h2>
+        <CustomBtn className={"logout-btn"} onClick={handleLogoutBtn}>
+          로그아웃
+        </CustomBtn>
       </div>
       <div className="chat-list-content">
         <PersonalChatList user={user} />

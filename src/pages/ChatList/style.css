@@ -32,11 +32,20 @@ body {
   box-sizing: border-box;
   padding: 30px 20px;
   text-align: left;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .chat-list-title > h2 {
   margin: 0px;
   font-size: 24px;
+}
+
+.logout-btn {
+  background-color: white;
 }
 
 .chat-list-content {

@@ -63,7 +63,7 @@ const Login = () => {
       setToken(data.accessToken);
 
       // 로그인 성공하면 내 정보 가져오기
-      const userData = await getMyInfo({ token: data.accessToken });
+      const userData = await getMyInfo();
       setUser(userData);
 
       setModalMessage("로그인 성공!");

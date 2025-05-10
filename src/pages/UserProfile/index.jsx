@@ -5,11 +5,9 @@ import { useState } from "react";
 import { modifyMyInfo } from "../../apis/users";
 import EditUserProfile from "./components/EditUserProfile";
 import ViewUserProfile from "./components/ViewUserProfile";
-import useTokenStore from "../../stores/token";
 import useLoginUserStore from "../../stores/loginUser";
 
 const UserProfile = () => {
-  const { token } = useTokenStore();
   const { user, setUser } = useLoginUserStore();
   const [name, setName] = useState(user.name || "");
   const [bio, setBio] = useState(user.bio || "");
@@ -26,7 +24,7 @@ const UserProfile = () => {
   const handleSaveProfile = async () => {
     setIsSaving(true);
     try {
-      const userData = await modifyMyInfo({ name, bio, token });
+      const userData = await modifyMyInfo({ name, bio });
       setUser(userData);
       setIsEditing(false);
     } catch (e) {
