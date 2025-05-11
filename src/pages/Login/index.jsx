@@ -11,34 +11,25 @@ import useLoginUserStore from "../../stores/loginUser";
 import { isValidEmail } from "../../utils/validation";
 
 const Login = () => {
-  // ============================ State ============================
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  // ============================ State 끝 ============================
-
+  // ============================ Hook ============================
   const navigate = useNavigate();
   const { setToken } = useTokenStore();
   const { setUser } = useLoginUserStore();
 
-  // ============================ Modal ============================
+  // ============================ State ============================
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [modalMessage, setModalMessage] = useState(null);
 
+  // ============================ function ============================
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     setIsModalOpen(false);
     if (modalMessage === "로그인 성공!") navigate("/chatlist");
   };
-  // ============================ Modal 끝 ============================
-
-  // ID 이메일 형식 체크
-  useEffect(() => {
-    if (email && !isValidEmail(email))
-      setErrorMessage("아이디는 이메일 형식으로 입력해야합니다.");
-    else setErrorMessage("");
-  }, [email]);
 
   // 로그인 버튼 핸들러
   const handleSubmit = async (e) => {
@@ -59,9 +50,7 @@ const Login = () => {
     } catch (e) {
       console.log("🚨 에러 발생: ", e);
 
-      const message =
-        e.response?.data?.message ||
-        "에러가 발생했습니다. 잠시 후 다시 시도해주세요.";
+      const message = e.response?.data?.message;
 
       if (message.includes("비밀번호")) {
         setErrorMessage(message);
@@ -74,7 +63,17 @@ const Login = () => {
     }
   };
 
+  // 버튼 비활성화
   const isBtnDisabled = email === "" || password === "" || !isValidEmail(email);
+
+  // ID 이메일 형식 체크
+  useEffect(() => {
+    if (email && !isValidEmail(email)) {
+      setErrorMessage("아이디는 이메일 형식으로 입력해야합니다.");
+    } else {
+      setErrorMessage(null);
+    }
+  }, [email]);
 
   return (
     <div className="login-container">
@@ -100,7 +99,12 @@ const Login = () => {
         </Link>
 
         {/* ID, PW 필드 에러메시지 */}
-        <div className="login-error-message">{errorMessage || "\u00A0"}</div>
+        <div
+          className="login-error-message"
+          style={{ visibility: errorMessage ? "visible" : "hidden" }}
+        >
+          {errorMessage}
+        </div>
       </form>
 
       {/* 모달 */}

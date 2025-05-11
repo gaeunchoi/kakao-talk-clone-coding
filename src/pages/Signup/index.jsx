@@ -1,6 +1,6 @@
 import "./style.css";
 import logo from "../../assets/kakaotalk-logo.png";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../../apis/auth";
 import Modal from "../../components/Modal";
@@ -9,34 +9,52 @@ import CustomBtn from "../../components/CustomBtn";
 import { isValidEmail, isValidPassword } from "../../utils/validation";
 
 const Signup = () => {
-  // ============================ State ============================
-  const [userData, setUserData] = useState({
-    id: "",
-    pw: "",
-    confirmPw: "",
-    name: "",
-    phoneNumber: "",
-  });
-
-  const [errorMessage, setErrorMessage] = useState({
-    id: "",
-    pw: "",
-    confirmPw: "",
-    phoneNumber: "",
-  });
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(false);
-  // ============================ State 끝 ============================
+  // ============================ Hook ============================
   const navigate = useNavigate();
-  // ============================ Modal ============================
-  // 모달을 위한 상태감지
+
+  // ============================ State ============================
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPw, setConfirmPw] = useState("");
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [emailErrorMessage, setEmailErrorMessage] = useState(null);
+  const [pwErrorMessage, setPwErrorMessage] = useState(null);
+  const [confirmPwErrorMessage, setConfirmPwErrorMessage] = useState(null);
+  const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [modalState, setModalState] = useState({
     isOpen: false,
     type: "",
     message: "",
   });
 
+  // ============================ Memo ============================
+  const isFormValid = useMemo(() => {
+    return (
+      email &&
+      password &&
+      confirmPw &&
+      name &&
+      phoneNumber &&
+      !emailErrorMessage &&
+      !pwErrorMessage &&
+      !confirmPwErrorMessage &&
+      !phoneNumberErrorMessage
+    );
+  }, [
+    email,
+    password,
+    confirmPw,
+    name,
+    phoneNumber,
+    emailErrorMessage,
+    pwErrorMessage,
+    confirmPwErrorMessage,
+    phoneNumberErrorMessage,
+  ]);
+
+  // ============================ function ============================
   const openSuccessModal = () => {
     setModalState({
       isOpen: true,
@@ -62,86 +80,68 @@ const Signup = () => {
     });
     if (isModalSuccess) navigate("/");
   };
-  // ============================ Modal 끝 ============================
-  const checkFormValid = useCallback(() => {
-    const { id, pw, confirmPw, name, phoneNumber } = userData;
-    const isValid =
-      id &&
-      pw &&
-      confirmPw &&
-      name &&
-      phoneNumber &&
-      !errorMessage.id &&
-      !errorMessage.pw &&
-      !errorMessage.confirmPw &&
-      !errorMessage.phoneNumber;
 
-    setIsFormValid(isValid);
-  }, [userData, errorMessage]);
-
-  useEffect(() => {
-    checkFormValid();
-  }, [userData, errorMessage, checkFormValid]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserData((prev) => ({ ...prev, [name]: value }));
-
-    if (name === "id") {
-      if (!isValidEmail(value)) {
-        setErrorMessage((prev) => ({
-          ...prev,
-          id: "아이디는 이메일 형식으로 입력해야합니다.",
-        }));
-      } else {
-        setErrorMessage((prev) => ({ ...prev, id: "" }));
-      }
-    }
-
-    if (name === "pw") {
-      const pwValidCheck = isValidPassword(value, userData.id);
-      setErrorMessage((prev) => ({
-        ...prev,
-        pw: pwValidCheck.valid ? "" : pwValidCheck.message,
-      }));
-    }
-
-    if (name === "confirmPw") {
-      setErrorMessage((prev) => ({
-        ...prev,
-        confirmPw:
-          value !== userData.pw ? "입력하신 비밀번호와 일치하지 않습니다." : "",
-      }));
-    }
-
-    if (name === "phoneNumber") {
-      const phoneNumberRegex = /^\d{11}$/;
-      setErrorMessage((prev) => ({
-        ...prev,
-        phoneNumber: phoneNumberRegex.test(value)
-          ? ""
-          : "숫자만 11자리로 입력해주세요.",
-      }));
+  // 이메일
+  const handleEmailChanged = (e) => {
+    setEmail(e.target.value);
+    if (!isValidEmail(e.target.value)) {
+      setEmailErrorMessage("아이디는 이메일 형식으로 입력해야합니다.");
+    } else {
+      setEmailErrorMessage(null);
     }
   };
 
+  // 비밀번호
+  const handlePasswordChanged = (e) => {
+    setPassword(e.target.value);
+    const result = isValidPassword(e.target.value, email);
+    if (!result.valid) {
+      setPwErrorMessage(result.message);
+    } else {
+      setPwErrorMessage(null);
+    }
+  };
+
+  // 비밀번호 확인
+  const handleConfirmPwChanged = (e) => {
+    setConfirmPw(e.target.value);
+
+    if (password !== e.target.value) {
+      setConfirmPwErrorMessage("입력하신 비밀번호와 일치하지 않습니다.");
+    } else {
+      setConfirmPwErrorMessage(null);
+    }
+  };
+
+  // 휴대전화번호
+  const handlePhoneNumberChanged = (e) => {
+    setPhoneNumber(e.target.value);
+
+    const phoneNumberRegex = /^\d{11}$/;
+    if (!phoneNumberRegex.test(e.target.value)) {
+      setPhoneNumberErrorMessage("숫자만 11자리를 입력해주세요.");
+    } else {
+      setPhoneNumberErrorMessage(null);
+    }
+  };
+
+  // 가입완료버튼
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
       await signup({
-        email: userData.id,
-        password: userData.pw,
-        name: userData.name,
-        phoneNumber: userData.phoneNumber,
+        email,
+        password,
+        name,
+        phoneNumber,
       });
 
       openSuccessModal();
     } catch (e) {
       console.error("🚨 에러발생: ", e);
-      const message = e.response?.data?.message || "회원가입에 실패했습니다.";
-      openErrorModal(message);
+      openErrorModal(e.response?.data?.message);
     } finally {
       setIsLoading(false);
     }
@@ -157,23 +157,23 @@ const Signup = () => {
       <form className="signup-form" onSubmit={handleSubmit}>
         <SignupInput
           label="아이디(E-mail)"
-          id="id"
-          name="id"
+          id="email"
+          name="email"
           placeholder="아이디를 이메일 형식으로 입력하세요"
-          value={userData.id}
-          onChange={handleChange}
-          errorMessage={errorMessage.id}
+          value={email}
+          onChange={handleEmailChanged}
+          errorMessage={emailErrorMessage}
         />
 
         <SignupInput
           label="비밀번호"
-          id="pw"
-          name="pw"
+          id="password"
+          name="password"
           type="password"
           placeholder="비밀번호를 8자 이상 입력하세요"
-          value={userData.pw}
-          onChange={handleChange}
-          errorMessage={errorMessage.pw}
+          value={password}
+          onChange={handlePasswordChanged}
+          errorMessage={pwErrorMessage}
         />
 
         <SignupInput
@@ -182,9 +182,9 @@ const Signup = () => {
           name="confirmPw"
           type="password"
           placeholder="위 비밀번호와 동일한 값을 입력하세요"
-          value={userData.confirmPw}
-          onChange={handleChange}
-          errorMessage={errorMessage.confirmPw}
+          value={confirmPw}
+          onChange={handleConfirmPwChanged}
+          errorMessage={confirmPwErrorMessage}
         />
 
         <SignupInput
@@ -192,19 +192,19 @@ const Signup = () => {
           id="name"
           name="name"
           placeholder="이름을 입력하세요"
-          value={userData.name}
-          onChange={handleChange}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
         <SignupInput
           label="휴대전화번호"
           id="phoneNumber"
           name="phoneNumber"
-          placeholder="휴대전화번호를 입력하세요(- 제외)"
-          value={userData.phoneNumber}
+          placeholder="휴대전화번호를 입력하세요(숫자만)"
+          value={phoneNumber}
           maxLength={11}
-          onChange={handleChange}
-          errorMessage={errorMessage.phoneNumber}
+          onChange={handlePhoneNumberChanged}
+          errorMessage={phoneNumberErrorMessage}
         />
 
         <div className="signup-form-field">

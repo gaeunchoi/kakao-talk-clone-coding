@@ -25,7 +25,12 @@ const SignupInput = ({
           onChange={onChange}
         />
       </div>
-      <div className="signup-error-message">{errorMessage || "\u00A0"}</div>
+      <div
+        className="signup-error-message"
+        style={{ visibility: errorMessage ? "visible" : "hidden" }}
+      >
+        {errorMessage}
+      </div>
     </div>
   );
 };
