@@ -130,21 +130,18 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      const { res, data } = await signup({
+      await signup({
         email: userData.id,
         password: userData.pw,
         name: userData.name,
         phoneNumber: userData.phoneNumber,
       });
 
-      if (!res.ok) {
-        openErrorModal(data.message);
-        return;
-      }
-
       openSuccessModal();
     } catch (e) {
       console.error("🚨 에러발생: ", e);
+      const message = e.response?.data?.message || "회원가입에 실패했습니다.";
+      openErrorModal(message);
     } finally {
       setIsLoading(false);
     }

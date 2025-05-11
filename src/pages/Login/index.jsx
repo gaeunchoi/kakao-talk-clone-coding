@@ -12,8 +12,8 @@ import { isValidEmail } from "../../utils/validation";
 
 const Login = () => {
   // ============================ State ============================
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   // ============================ State 끝 ============================
@@ -35,10 +35,10 @@ const Login = () => {
 
   // ID 이메일 형식 체크
   useEffect(() => {
-    if (id && !isValidEmail(id))
+    if (email && !isValidEmail(email))
       setErrorMessage("아이디는 이메일 형식으로 입력해야합니다.");
     else setErrorMessage("");
-  }, [id]);
+  }, [email]);
 
   // 로그인 버튼 핸들러
   const handleSubmit = async (e) => {
@@ -46,23 +46,11 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      // 로그인 시도
-      const { res, data } = await login({ email: id, password: pw });
-
-      if (!res.ok) {
-        if (data.message.includes("비밀번호")) {
-          setErrorMessage(data.message);
-        } else {
-          setModalMessage(data.message);
-          openModal();
-        }
-        return;
-      }
-
-      // token 전역상태관리
+      // 로그인 시도 및 토큰 전역관리
+      const data = await login({ email, password });
       setToken(data.accessToken);
 
-      // 로그인 성공하면 내 정보 가져오기
+      // 로그인 성공하면 내 정보 가져오기 및 유저정보 전역관리
       const userData = await getMyInfo();
       setUser(userData);
 
@@ -70,14 +58,23 @@ const Login = () => {
       openModal();
     } catch (e) {
       console.log("🚨 에러 발생: ", e);
-      setModalMessage("에러가 발생했습니다. 잠시 후 다시 시도해주세요.");
-      openModal();
+
+      const message =
+        e.response?.data?.message ||
+        "에러가 발생했습니다. 잠시 후 다시 시도해주세요.";
+
+      if (message.includes("비밀번호")) {
+        setErrorMessage(message);
+      } else {
+        setModalMessage(message);
+        openModal();
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
-  const isBtnDisabled = id === "" || pw === "" || !isValidEmail(id);
+  const isBtnDisabled = email === "" || password === "" || !isValidEmail(email);
 
   return (
     <div className="login-container">
@@ -86,14 +83,14 @@ const Login = () => {
         <input
           type="text"
           placeholder="아이디(E-mail)"
-          value={id}
-          onChange={(e) => setId(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="비밀번호"
-          value={pw}
-          onChange={(e) => setPw(e.target.value)}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <CustomBtn type="submit" disabled={isBtnDisabled || isLoading}>
           {isLoading ? "로그인 진행중" : "로그인"}

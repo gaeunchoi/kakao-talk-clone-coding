@@ -1,29 +1,19 @@
-export async function signup({ email, password, name, phoneNumber }) {
-  const res = await fetch("https://goorm-kakaotalk-api.vercel.app/api/signup", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email,
-      password,
-      name,
-      phoneNumber,
-    }),
-  });
+import axiosInstance from "./index";
 
-  const data = await res.json();
-  return { res, data };
+export async function signup({ email, password, name, phoneNumber }) {
+  await axiosInstance({
+    method: "POST",
+    url: "/signup",
+    data: { email, password, name, phoneNumber },
+  });
 }
 
 export async function login({ email, password }) {
-  const res = await fetch("https://goorm-kakaotalk-api.vercel.app/api/signin", {
+  const res = await axiosInstance({
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email,
-      password,
-    }),
+    url: "/signin",
+    data: { email, password },
   });
 
-  const data = await res.json();
-  return { res, data };
+  return res.data;
 }
