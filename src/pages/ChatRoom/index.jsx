@@ -10,8 +10,8 @@ import {
 import Modal from "../../components/Modal";
 import CustomBtn from "../../components/CustomBtn";
 import ChatBubble from "../../components/ChatBubble";
-import useTokenStore from "../../stores/token";
 import useLoginUserStore from "../../stores/loginUser";
+import SenderSelector from "./components/SenderSelector";
 
 const ChatRoom = () => {
   // ============================ State ============================
@@ -24,26 +24,23 @@ const ChatRoom = () => {
   // ============================ State 끝 ============================
 
   // ============================ variable ============================
-  const { token } = useTokenStore();
   const { user: loginUser } = useLoginUserStore();
   const { chatroomId } = useParams();
   const navigate = useNavigate();
   // ============================ variable 끝 ============================
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: "smooth" });
-    }
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   useEffect(() => {
     const fetchChatData = async () => {
       try {
         // 채팅방 정보
-        const chatInfoData = await getChatRoomsInfo({ chatroomId, token });
+        const chatInfoData = await getChatRoomsInfo({ chatroomId });
         setTarget(chatroomId === "me" ? loginUser : chatInfoData.other_user);
 
         // 채팅방 내용
-        const chatContentData = await getChatRoomContent({ chatroomId, token });
+        const chatContentData = await getChatRoomContent({ chatroomId });
         setMessages(chatContentData);
       } catch (e) {
         console.error("🚨 에러 발생", e);
@@ -68,7 +65,6 @@ const ChatRoom = () => {
       setIsSending(true);
       const sendMsgData = await sendChatMessage({
         chatroomId,
-        token,
         sender_id,
         content: chatMessage,
       });
@@ -118,30 +114,10 @@ const ChatRoom = () => {
             </div>
           </div>
           {target.id !== loginUser.id && (
-            <div className="who-send-chat">
-              <form>
-                <label>
-                  <input
-                    type="radio"
-                    name="sender"
-                    value="me"
-                    checked={senderType === "me"}
-                    onChange={handleSenderChange}
-                  />
-                  나
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="sender"
-                    value="target"
-                    checked={senderType === "target"}
-                    onChange={handleSenderChange}
-                  />
-                  상대방
-                </label>
-              </form>
-            </div>
+            <SenderSelector
+              senderType={senderType}
+              onChange={handleSenderChange}
+            />
           )}
           <div className="chat-room-send-text">
             <textarea

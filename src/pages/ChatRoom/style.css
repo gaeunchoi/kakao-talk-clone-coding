@@ -72,26 +72,6 @@ body {
   box-sizing: border-box;
 }
 
-/* 누가채팅보냈게 */
-.who-send-chat {
-  box-sizing: border-box;
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  padding: 10px;
-  width: 100%;
-  height: 40px;
-
-  background-color: #eee;
-  border: none;
-}
-
-.who-send-chat > form > label {
-  margin-right: 10px;
-}
-
 /* 채팅창 입력 + 전송버튼 */
 .chat-room-send-text {
   box-sizing: border-box;
