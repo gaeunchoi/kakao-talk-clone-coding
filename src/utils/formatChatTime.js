@@ -9,16 +9,16 @@ export const formatChatTime = (isChatBubble, chatTimeInfo) => {
 
   if (isChatBubble) {
     return chatTime.format("A hh:mm");
-  } else {
-    const isToday = now.isSame(chatTime, "day");
-    const isYesterday = now.add(-1, "day").isSame(chatTime, "day");
+  }
 
-    if (isToday) {
-      return chatTime.format("A hh:mm");
-    } else if (isYesterday) {
-      return "어제";
-    } else {
-      return chatTime.format("M월 D일");
-    }
+  const isToday = now.isSame(chatTime, "day");
+  const isYesterday = now.add(-1, "day").isSame(chatTime, "day");
+
+  if (isToday) {
+    return chatTime.format("A hh:mm");
+  } else if (isYesterday) {
+    return "어제";
+  } else {
+    return chatTime.format("M월 D일");
   }
 };

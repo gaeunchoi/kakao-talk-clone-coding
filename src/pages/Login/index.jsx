@@ -54,10 +54,10 @@ const Login = () => {
 
       if (message.includes("비밀번호")) {
         setErrorMessage(message);
-      } else {
-        setModalMessage(message);
-        openModal();
+        return;
       }
+      setModalMessage(message);
+      openModal();
     } finally {
       setIsLoading(false);
     }
@@ -70,9 +70,9 @@ const Login = () => {
   useEffect(() => {
     if (email && !isValidEmail(email)) {
       setErrorMessage("아이디는 이메일 형식으로 입력해야합니다.");
-    } else {
-      setErrorMessage(null);
+      return;
     }
+    setErrorMessage(null);
   }, [email]);
 
   return (

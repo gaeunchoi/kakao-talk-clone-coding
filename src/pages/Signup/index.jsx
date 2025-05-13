@@ -86,9 +86,9 @@ const Signup = () => {
     setEmail(e.target.value);
     if (!isValidEmail(e.target.value)) {
       setEmailErrorMessage("아이디는 이메일 형식으로 입력해야합니다.");
-    } else {
-      setEmailErrorMessage(null);
+      return;
     }
+    setEmailErrorMessage(null);
   };
 
   // 비밀번호
@@ -97,9 +97,9 @@ const Signup = () => {
     const result = isValidPassword(e.target.value, email);
     if (!result.valid) {
       setPwErrorMessage(result.message);
-    } else {
-      setPwErrorMessage(null);
+      return;
     }
+    setPwErrorMessage(null);
   };
 
   // 비밀번호 확인
@@ -108,9 +108,9 @@ const Signup = () => {
 
     if (password !== e.target.value) {
       setConfirmPwErrorMessage("입력하신 비밀번호와 일치하지 않습니다.");
-    } else {
-      setConfirmPwErrorMessage(null);
+      return;
     }
+    setConfirmPwErrorMessage(null);
   };
 
   // 휴대전화번호
@@ -120,9 +120,9 @@ const Signup = () => {
     const phoneNumberRegex = /^\d{11}$/;
     if (!phoneNumberRegex.test(e.target.value)) {
       setPhoneNumberErrorMessage("숫자만 11자리를 입력해주세요.");
-    } else {
-      setPhoneNumberErrorMessage(null);
+      return;
     }
+    setPhoneNumberErrorMessage(null);
   };
 
   // 가입완료버튼
