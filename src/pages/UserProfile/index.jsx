@@ -59,7 +59,7 @@ const UserProfile = () => {
             isSaving={isSaving}
           />
         ) : (
-          <ViewUserProfile user={user} onEdit={() => setIsEditing(true)} />
+          <ViewUserProfile user={user} onEditClick={() => setIsEditing(true)} />
         )}
       </div>
     </div>

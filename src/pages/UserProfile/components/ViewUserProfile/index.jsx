@@ -2,7 +2,7 @@ import "./style.css";
 import CustomBtn from "../../../../components/CustomBtn";
 import { useNavigate } from "react-router-dom";
 
-const ViewUserProfile = ({ user, onEdit }) => {
+const ViewUserProfile = ({ user, onEditClick }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -24,7 +24,7 @@ const ViewUserProfile = ({ user, onEdit }) => {
         >
           나와의 채팅
         </CustomBtn>
-        <CustomBtn className="profile-btn" onClick={onEdit}>
+        <CustomBtn className="profile-btn" onClick={onEditClick}>
           프로필 편집
         </CustomBtn>
       </div>
