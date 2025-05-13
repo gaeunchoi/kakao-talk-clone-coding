@@ -1,22 +1,24 @@
-export const formatChatTime = (isChatBubble, chatTimeInfo) => {
-  const now = new Date();
-  const chatTime = new Date(chatTimeInfo);
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
 
-  if(isChatBubble){
-    return chatTime.toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit", hour12: true});
+dayjs.locale("ko");
+
+export const formatChatTime = (isChatBubble, chatTimeInfo) => {
+  const now = dayjs();
+  const chatTime = dayjs(chatTimeInfo);
+
+  if (isChatBubble) {
+    return chatTime.format("A hh:mm");
   } else {
-    const isToday = now.getFullYear() === chatTime.getFullYear() && now.getMonth() === chatTime.getMonth() && now.getDate() === chatTime.getDate();
-  
-    let yesterday = new Date();
-    yesterday.setDate(now.getDate() - 1);
-    const isYesterday = yesterday.getFullYear() === chatTime.getFullYear() && yesterday.getMonth() === chatTime.getMonth && yesterday.getDate() === chatTime.getDate();
-  
-    if(isToday){
-      return chatTime.toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit", hour12: true});
-    } else if(isYesterday){
+    const isToday = now.isSame(chatTime, "day");
+    const isYesterday = now.add(-1, "day").isSame(chatTime, "day");
+
+    if (isToday) {
+      return chatTime.format("A hh:mm");
+    } else if (isYesterday) {
       return "어제";
     } else {
-      return `${chatTime.getMonth() + 1}월 ${chatTime.getDate()}일`
+      return chatTime.format("M월 D일");
     }
-  }  
-}
+  }
+};
