@@ -5,8 +5,7 @@ import useLoginUserStore from "../../../../stores/loginUser";
 const EditUserProfile = ({
   name,
   bio,
-  onNameChange,
-  onBioChange,
+  onChange,
   onCancel,
   onSave,
   isSaving,
@@ -23,14 +22,14 @@ const EditUserProfile = ({
         <input
           type="text"
           value={name}
-          onChange={(e) => onNameChange(e.target.value)}
+          onChange={(e) => onChange("name", e.target.value)}
           placeholder="이름"
           className="modify-input"
         />
         <input
           type="text"
           value={bio}
-          onChange={(e) => onBioChange(e.target.value)}
+          onChange={(e) => onChange("bio", e.target.value)}
           placeholder="상태메시지"
           className="modify-input"
         />

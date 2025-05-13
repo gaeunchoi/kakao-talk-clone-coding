@@ -3,17 +3,26 @@ import "../../styles/transitions.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { modifyMyInfo } from "../../apis/users";
-import EditUserProfile from "./components/EditUserProfile";
+import EditUserProfile from "./components/EditUserProfileForm";
 import ViewUserProfile from "./components/ViewUserProfile";
 import useLoginUserStore from "../../stores/loginUser";
 
 const UserProfile = () => {
+  // ============================ Hook ============================
+  const navigate = useNavigate();
   const { user, setUser } = useLoginUserStore();
+
+  // ============================ State ============================
   const [name, setName] = useState(user.name || "");
   const [bio, setBio] = useState(user.bio || "");
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const navigate = useNavigate();
+
+  // ============================ function ============================
+  const handleChange = (key, value) => {
+    if (key === "name") setName(value);
+    else if (key === "bio") setBio(value);
+  };
 
   const handleCalcel = () => {
     setIsEditing(false);
@@ -44,8 +53,7 @@ const UserProfile = () => {
           <EditUserProfile
             name={name}
             bio={bio}
-            onNameChange={setName}
-            onBioChange={setBio}
+            onChange={handleChange}
             onCancel={handleCalcel}
             onSave={handleSaveProfile}
             isSaving={isSaving}
